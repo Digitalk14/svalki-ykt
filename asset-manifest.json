@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/svalki-ykt/static/css/main.ac9e10c4.chunk.css",
+    "main.js": "/svalki-ykt/static/js/main.9a7ee0d0.chunk.js",
+    "main.js.map": "/svalki-ykt/static/js/main.9a7ee0d0.chunk.js.map",
+    "runtime-main.js": "/svalki-ykt/static/js/runtime-main.3157affc.js",
+    "runtime-main.js.map": "/svalki-ykt/static/js/runtime-main.3157affc.js.map",
+    "static/css/2.b4ebbe46.chunk.css": "/svalki-ykt/static/css/2.b4ebbe46.chunk.css",
+    "static/js/2.bc183b0e.chunk.js": "/svalki-ykt/static/js/2.bc183b0e.chunk.js",
+    "static/js/2.bc183b0e.chunk.js.map": "/svalki-ykt/static/js/2.bc183b0e.chunk.js.map",
+    "index.html": "/svalki-ykt/index.html",
+    "static/css/2.b4ebbe46.chunk.css.map": "/svalki-ykt/static/css/2.b4ebbe46.chunk.css.map",
+    "static/css/main.ac9e10c4.chunk.css.map": "/svalki-ykt/static/css/main.ac9e10c4.chunk.css.map",
+    "static/js/2.bc183b0e.chunk.js.LICENSE.txt": "/svalki-ykt/static/js/2.bc183b0e.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3157affc.js",
+    "static/css/2.b4ebbe46.chunk.css",
+    "static/js/2.bc183b0e.chunk.js",
+    "static/css/main.ac9e10c4.chunk.css",
+    "static/js/main.9a7ee0d0.chunk.js"
+  ]
+}
