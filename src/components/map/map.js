@@ -8,7 +8,7 @@ import picnic from '../../images/picnic.png'
 import { svalkiExamples } from '../svalki/svalkiExamples'
 import { LocationMarker } from './locationMarker'
 
-const iconSize = [45, 45];
+const iconSize = [25, 25];
 const iconAnchor = [12.5, 41];
 const popupAnchor = [0, -45];
 let redBinIcon = L.icon({
