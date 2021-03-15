@@ -1,13 +1,20 @@
 import React from 'react'
 import L from 'leaflet'
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import redBin from '../../images/red_bin.png'
 import greenBin from '../../images/green_bin.png'
 import question from '../../images/question.png'
 import picnic from '../../images/picnic.png'
 import { svalkiExamples } from '../svalki/svalkiExamples'
 import { LocationMarker } from './locationMarker'
+import styled from 'styled-components'
 
+const MapWrapper = styled.div`
+    width: 100%;
+    max-width: 1200px;
+    height: 400px;
+    margin: 30px 0;
+`
 const iconSize = [25, 25];
 const iconAnchor = [12.5, 41];
 const popupAnchor = [0, -45];
@@ -71,8 +78,8 @@ export default class Map extends React.Component {
             }
         }
         return (
-            <div >
-                <MapContainer className="map" center={position} zoom={13} scrollWheelZoom={true} >
+            <MapWrapper >
+                <MapContainer style={{ height: "100%" }} center={position} zoom={13} scrollWheelZoom={true} >
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -88,7 +95,7 @@ export default class Map extends React.Component {
                         )
                     })}
                 </MapContainer>
-            </div>
+            </MapWrapper>
         );
     }
 }
