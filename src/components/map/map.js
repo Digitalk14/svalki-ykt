@@ -14,6 +14,12 @@ const MapWrapper = styled.div`
     max-width: 1200px;
     height: 400px;
     margin: 30px 0;
+    padding: 0 20px;
+    box-sizing: border-box;
+    @media (max-width:700px){
+        padding: 0;
+        height: 80vh;
+    }
 `
 const iconSize = [25, 25];
 const iconAnchor = [12.5, 41];

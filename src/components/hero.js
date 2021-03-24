@@ -2,13 +2,18 @@ import React from 'react'
 import styled from 'styled-components'
 import background from '../images/bg.jpg'
 import { Heading, Text } from './typography'
+import logo from '../images/logo.png'
 
 const HeroWrapper = styled.div`
     width: 100%;
     background: url(${background}) no-repeat center center;
-    height: 400px;
     box-sizing: border-box;
-    padding: 20px 0 ;
+    padding: 100px 0;
+    display: flex;
+    align-items: center;
+    @media (max-width:700px){
+        padding: 40px 0;
+    }
 `
 const HeroContent = styled.div`
     width: 100%;
@@ -17,21 +22,43 @@ const HeroContent = styled.div`
     flex-direction: column;
     align-items: flex-start;
     margin: auto;
+    padding: 0 20px;
+    @media (max-width:700px){
+        align-items: center
+    }
 `
 
 const Anchor = styled.a`
     background-color: #ffea00;
-    padding: 20px;
+    padding: 20px 30px;
+    cursor: pointer;
+    font-weight: 700;
+    text-align: center;
+`
+
+const Logo = styled.img.attrs({
+    src: logo
+})`
+    width: 100px;
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    @media (max-width:700px){
+        position: relative;
+        left: 0;
+        top: 0;
+    }
 `
 
 export const Hero = () => {
     return (
         <HeroWrapper>
             <HeroContent>
-                <Heading>
+                <Logo />
+                <Heading maxWidth='550px'>
                     Карта мусора на природе рядом с Якутском
                 </Heading>
-                <Text>
+                <Text maxWidth='400px' margin='40px 0'>
                     При помощи этой карты будет собираться информация о мусоре, для последующих уборок и вывоза.
                 </Text>
                 <Anchor>

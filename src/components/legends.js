@@ -13,12 +13,18 @@ const LegendBlocks = styled.div`
     display: flex;
     flex-wrap: wrap;
     margin: auto;
+    box-sizing: border-box;
+    padding: 0 20px;
 `
 const LegendsBlock = styled.div`
     width: 50%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    margin-bottom: 20px;
+    @media (max-width: 700px){
+        width: 100%;
+    }
 `
 const LegendImage = styled.img.attrs(props => ({
     src: props.src
@@ -31,32 +37,32 @@ const LegendImage = styled.img.attrs(props => ({
 export const Legends = () => {
     return (
         <LegendBlocks>
-            {Object.values(dumpsByTypes()).map((block, i) => {
-                switch (block.status) {
+            {Object.entries(dumpsByTypes()).map(([keys,block], i) => {
+                switch (keys) {
                     case 'red':
                         return (
-                            <LegendsBlock>
+                            <LegendsBlock key={i}>
                                 <LegendImage src={redBin} />
                                 <Text>{block.text}</Text>
                             </LegendsBlock>
                         )
                     case 'green':
                         return (
-                            <LegendsBlock>
+                            <LegendsBlock key={i}>
                                 <LegendImage src={greenBin} />
                                 <Text>{block.text}</Text>
                             </LegendsBlock>
                         )
                     case 'question':
                         return (
-                            <LegendsBlock>
+                            <LegendsBlock key={i}>
                                 <LegendImage src={question} />
                                 <Text>{block.text}</Text>
                             </LegendsBlock>
                         )
                     case 'picnic':
                         return (
-                            <LegendsBlock>
+                            <LegendsBlock key={i}>
                                 <LegendImage src={picnic} />
                                 <Text>{block.text}</Text>
                             </LegendsBlock>
