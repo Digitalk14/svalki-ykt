@@ -8,11 +8,12 @@ import picnic from '../../images/picnic.png'
 import { svalkiExamples } from '../svalki/svalkiExamples'
 import { LocationMarker } from './locationMarker'
 import styled from 'styled-components'
+import { Text } from '../typography'
 
 const MapWrapper = styled.div`
     width: 100%;
     max-width: 1200px;
-    height: 400px;
+    height: 800px;
     margin: 30px 0;
     padding: 0 20px;
     box-sizing: border-box;
@@ -21,6 +22,10 @@ const MapWrapper = styled.div`
         height: 80vh;
     }
 `
+const LitterImage = styled.img`
+    width: 100%;
+`
+
 const iconSize = [25, 25];
 const iconAnchor = [12.5, 41];
 const popupAnchor = [0, -45];
@@ -91,11 +96,17 @@ export default class Map extends React.Component {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     <LocationMarker passPosition={this.getPosition} />
-                    {this.state.markers.map(({ position, status }, index) => {
+                    {this.state.markers.map(({ position, status, images, text, name, category, checkStatus, level, additional }, index) => {
+                        console.log()
                         return (
                             <Marker key={index} position={position} icon={switchIcon(status)}>
-                                <Popup >
-                                    Some text
+                                <Popup minWidth={350}>
+                                    <LitterImage src={images[0]} />
+                                    <Text>Название: {name}</Text>
+                                    <Text>Категория мусора: {category}</Text>
+                                    <Text>Статус точки: {checkStatus}</Text>
+                                    <Text>Степень замусоренности: {level}</Text>
+                                    {additional ? <Text>Доп. информация: {additional}</Text> : null}
                                 </Popup>
                             </Marker>
                         )

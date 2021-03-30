@@ -12,6 +12,7 @@ const Select = styled.select`
     border-radius: 3px;
     width: 300px;
     box-sizing: border-box;
+    background: white;
 `
 const Input = styled.input`
     margin: 0 0 5px 0;
@@ -20,6 +21,7 @@ const Input = styled.input`
     border-radius: 3px;
     width: 300px;
     box-sizing: border-box;
+    background: white;
     ::-webkit-input-placeholder { 
         padding: 5px;
       }
@@ -38,13 +40,27 @@ export default class Modal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            trashType: ''
+            trashAmount: '',
+            trashType: '',
+            userName: '',
+            userContact: '',
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChangeType = this.handleChangeType.bind(this)
     }
     handleSubmit(e) {
         e.preventDefault()
+        if(this.state.trashAmount===''){
+            
+        }
+        if (
+            this.state.trashAmount==='' ||
+            this.state.trashType==='' ||
+            this.state.userName.length < 1 ||
+            this.state.userContact.length < 1
+        ){
+            return false
+        }
         this.props.getPosition(this.state.trashType)
     }
     handleChangeType(e) {
@@ -56,20 +72,20 @@ export default class Modal extends React.Component {
         return (
             <Form onSubmit={this.handleSubmit}>
                 Заполните поля:
-                <Select defaultValue="none">
+                <Select defaultValue="none" onChange={(e) => this.setState({ trashAmount: e.target.value })}>
                     <option value="none" disabled>Укажите объём свалки</option>
                     <option>малый</option>
                     <option>средний</option>
                     <option>большой</option>
                 </Select>
-                <Select onChange={this.handleChangeType} defaultValue="none">
+                <Select onChange={(e) => this.setState({ trashType: e.target.value })} defaultValue="none">
                     <option value="none" disabled>Укажите тип свалки</option>
                     <option value="red">крупно-габаритный</option>
                     <option value="question">строительный мусор</option>
                     <option value="picnic">бытовые отходы</option>
                 </Select>
-                <Input placeholder="Укажите Ваше имя*" />
-                <Input placeholder="Укажите Ваш телефон или email" />
+                <Input placeholder="Укажите Ваше имя*" onChange={e => this.setState({ userName: e.target.value })} />
+                <Input placeholder="Укажите Ваш телефон или email" onChange={e => this.setState({ userContact: e.target.value })} />
                 <SubmitButton type="submit">Отправить</SubmitButton>
             </Form>
         )
