@@ -8,8 +8,9 @@ module.exports = {
     mode: 'development',
     entry: './src/index.js',
     output: {
-        filename: 'bundle.[hash].js',
-        path: path.resolve(__dirname, "build")
+        filename: 'bundle-main.js',
+        path: path.resolve(__dirname, "build"),
+        publicPath: '/'
     },
     resolve: {
         alias: {
