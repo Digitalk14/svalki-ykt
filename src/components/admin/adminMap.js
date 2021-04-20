@@ -13,15 +13,8 @@ import axios from 'axios'
 
 const MapWrapper = styled.div`
     width: 100%;
-    max-width: 1200px;
     height: 800px;
-    margin: 30px 0;
-    padding: 0 20px;
     box-sizing: border-box;
-    @media (max-width:700px){
-        padding: 0;
-        height: 80vh;
-    }
 `
 const LitterImage = styled.img`
     width: 100%;
@@ -70,7 +63,6 @@ export default class Map extends React.Component {
                 this.setState({
                     dumps: res.data
                 })
-
             })
     }
     getPosition(lat, lon, trashType) {
@@ -101,7 +93,7 @@ export default class Map extends React.Component {
         }
         return (
             <MapWrapper >
-                <MapContainer style={{ height: "100%" }} center={position} zoom={13} scrollWheelZoom={true} >
+                <MapContainer style={{ height: "100vh", width: '100%' }} center={position} zoom={13} scrollWheelZoom={true} >
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -114,7 +106,12 @@ export default class Map extends React.Component {
                         return (
                             <Marker key={index} position={position} icon={switchIcon(status)}>
                                 <Popup minWidth={350}>
-                                    {/* <LitterImage src={images[0]} /> */}
+                                    {images.split(';').map((image, i) =>{
+                                        return(
+                                            <LitterImage key={i} src={image} />
+                                        )
+                                    }
+                                    )}
                                     <Text>Название: {name}</Text>
                                     <Text>Категория мусора: {category}</Text>
                                     <Text>Статус точки: {checkStatus}</Text>

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import axios from 'axios'
 
 const Form = styled.form`
     display: flex;
@@ -13,19 +14,20 @@ const Select = styled.select`
     width: 300px;
     box-sizing: border-box;
     background: white;
+    outline: none;
 `
-const Input = styled.input`
-    margin: 0 0 5px 0;
-    padding: 5px;
-    border: 1px solid #8080807d;
-    border-radius: 3px;
-    width: 300px;
-    box-sizing: border-box;
-    background: white;
-    ::-webkit-input-placeholder { 
-        padding: 5px;
-      }
-`
+// const Input = styled.input`
+//     margin: 0 0 5px 0;
+//     padding: 5px;
+//     border: 1px solid #8080807d;
+//     border-radius: 3px;
+//     width: 300px;
+//     box-sizing: border-box;
+//     background: white;
+//     ::-webkit-input-placeholder { 
+//         padding: 5px;
+//       }
+// `
 const SubmitButton = styled.button`
     background: #91bb57;
     border: none;
@@ -34,6 +36,7 @@ const SubmitButton = styled.button`
     border-radius: 3px;
     width: 300px;
     box-sizing: border-box;
+    outline: none;
 `
 
 export default class Modal extends React.Component {
@@ -42,8 +45,6 @@ export default class Modal extends React.Component {
         this.state = {
             trashAmount: '',
             trashType: '',
-            userName: '',
-            userContact: '',
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChangeType = this.handleChangeType.bind(this)
@@ -55,13 +56,27 @@ export default class Modal extends React.Component {
         }
         if (
             this.state.trashAmount==='' ||
-            this.state.trashType==='' ||
-            this.state.userName.length < 1 ||
-            this.state.userContact.length < 1
+            this.state.trashType===''
         ){
             return false
         }
-        this.props.getPosition(this.state.trashType)
+        axios({
+            method: 'post',
+            url:'/api/addDump.php',
+            data: {
+                positionLat: this.props.positionLat,
+                positionLon: this.props.positionLon,
+                status: 'red',
+                text: 'свалка №б/н',
+                category: 'несанкционированная свалка',
+                checkStatus: 'на проверке',
+                level: 'много',
+                additional: '',
+                images: 'https://cdn.sierrasun.com/wp-content/uploads/sites/4/2020/08/Trashproblem-tdt-081420-1-1024x1024.jpg'
+            }
+        }).then(res=>console.log(res))
+        .catch(err=>console.log('Error: ', err))
+        // this.props.getPosition(this.state.trashType)
     }
     handleChangeType(e) {
         this.setState({
@@ -84,8 +99,6 @@ export default class Modal extends React.Component {
                     <option value="question">строительный мусор</option>
                     <option value="picnic">бытовые отходы</option>
                 </Select>
-                <Input placeholder="Укажите Ваше имя*" onChange={e => this.setState({ userName: e.target.value })} />
-                <Input placeholder="Укажите Ваш телефон или email" onChange={e => this.setState({ userContact: e.target.value })} />
                 <SubmitButton type="submit">Отправить</SubmitButton>
             </Form>
         )

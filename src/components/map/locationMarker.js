@@ -25,6 +25,8 @@ export const LocationMarker = (props) => {
             >
                 <Modal
                 getPosition={getPosition}
+                positionLat={position.latitude}
+                positionLon={position.longitude}
                 />
             </Popup>
 
