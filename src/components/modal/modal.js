@@ -68,6 +68,7 @@ export default class Modal extends React.Component {
                 positionLon: this.props.positionLon,
                 status: 'red',
                 text: 'свалка №б/н',
+                name: 'свалка №TEST',
                 category: 'несанкционированная свалка',
                 checkStatus: 'на проверке',
                 level: 'много',
