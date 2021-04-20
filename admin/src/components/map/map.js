@@ -9,6 +9,7 @@ import { svalkiExamples } from '../svalki/svalkiExamples'
 import { LocationMarker } from './locationMarker'
 import styled from 'styled-components'
 import { Text } from '../typography'
+import axios from 'axios'
 
 const MapWrapper = styled.div`
     width: 100%;
@@ -59,8 +60,18 @@ export default class Map extends React.Component {
         super(props);
         this.state = {
             markers: svalkiExamples,
+            dumps: []
         }
         this.getPosition = this.getPosition.bind(this)
+    }
+    componentDidMount() {
+        axios.get('/api/dumps.php')
+            .then(res => {
+                this.setState({
+                    dumps: res.data
+                })
+
+            })
     }
     getPosition(lat, lon, trashType) {
         let state = [...this.state.markers]
@@ -96,12 +107,14 @@ export default class Map extends React.Component {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     <LocationMarker passPosition={this.getPosition} />
-                    {this.state.markers.map(({ position, status, images, text, name, category, checkStatus, level, additional }, index) => {
-                        console.log()
+                    {this.state.dumps.map(({ positionLat, positionLon, status, images, text, name, category, checkStatus, level, additional }, index) => {
+                        let position = []
+                        position.push(positionLat)
+                        position.push(positionLon)
                         return (
                             <Marker key={index} position={position} icon={switchIcon(status)}>
                                 <Popup minWidth={350}>
-                                    <LitterImage src={images[0]} />
+                                    {/* <LitterImage src={images[0]} /> */}
                                     <Text>Название: {name}</Text>
                                     <Text>Категория мусора: {category}</Text>
                                     <Text>Статус точки: {checkStatus}</Text>
