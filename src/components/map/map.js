@@ -3,6 +3,7 @@ import L from 'leaflet'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import redBin from '../../images/red_bin.png'
 import greenBin from '../../images/green_bin.png'
+import newBin from '../../images/loading.png'
 import question from '../../images/question.png'
 import picnic from '../../images/picnic.png'
 import { svalkiExamples } from '../svalki/svalkiExamples'
@@ -53,6 +54,12 @@ let picnicIcon = L.icon({
     iconAnchor: iconAnchor,
     popupAnchor: popupAnchor
 })
+let newIcon = L.icon({
+    iconUrl: newBin,
+    iconSize: iconSize,
+    iconAnchor: iconAnchor,
+    popupAnchor: popupAnchor
+})
 
 export default class Map extends React.Component {
     constructor(props) {
@@ -86,6 +93,8 @@ export default class Map extends React.Component {
                     return questionIcon;
                 case 'picnic':
                     return picnicIcon
+                case 'new':
+                    return newIcon
             }
         }
         return (
@@ -97,7 +106,6 @@ export default class Map extends React.Component {
                     />
                     <LocationMarker passPosition={this.getPosition} />
                     {this.state.markers.map(({ position, status, images, text, name, category, checkStatus, level, additional }, index) => {
-                        console.log()
                         return (
                             <Marker key={index} position={position} icon={switchIcon(status)}>
                                 <Popup minWidth={350}>

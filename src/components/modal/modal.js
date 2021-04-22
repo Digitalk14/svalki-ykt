@@ -1,6 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
+import redTrash from '../../images/red_bin.png'
+import blueTrash from '../../images/question.png'
+import yellowTrash from '../../images/picnic.png'
+
+const IconImg = styled.img`
+    width: 20px;
+`
 
 const Form = styled.form`
     display: flex;
@@ -16,18 +23,18 @@ const Select = styled.select`
     background: white;
     outline: none;
 `
-// const Input = styled.input`
-//     margin: 0 0 5px 0;
-//     padding: 5px;
-//     border: 1px solid #8080807d;
-//     border-radius: 3px;
-//     width: 300px;
-//     box-sizing: border-box;
-//     background: white;
-//     ::-webkit-input-placeholder { 
-//         padding: 5px;
-//       }
-// `
+const Input = styled.input`
+    margin: 0 0 5px 0;
+    padding: 5px;
+    border: 1px solid #8080807d;
+    border-radius: 3px;
+    width: 300px;
+    box-sizing: border-box;
+    background: white;
+    ::-webkit-input-placeholder { 
+        padding: 5px;
+      }
+`
 const SubmitButton = styled.button`
     background: #91bb57;
     border: none;
@@ -45,6 +52,7 @@ export default class Modal extends React.Component {
         this.state = {
             trashAmount: '',
             trashType: '',
+            additionalText: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChangeType = this.handleChangeType.bind(this)
@@ -66,18 +74,14 @@ export default class Modal extends React.Component {
             data: {
                 positionLat: this.props.positionLat,
                 positionLon: this.props.positionLon,
-                status: 'red',
-                text: 'свалка №б/н',
-                name: 'свалка №TEST',
-                category: 'несанкционированная свалка',
+                status: 'new',
                 checkStatus: 'на проверке',
-                level: 'много',
-                additional: '',
+                level: this.state.trashAmount,
+                additional: this.state.additionalText,
                 images: 'https://cdn.sierrasun.com/wp-content/uploads/sites/4/2020/08/Trashproblem-tdt-081420-1-1024x1024.jpg'
             }
         }).then(res=>console.log(res))
         .catch(err=>console.log('Error: ', err))
-        // this.props.getPosition(this.state.trashType)
     }
     handleChangeType(e) {
         this.setState({
@@ -95,12 +99,13 @@ export default class Modal extends React.Component {
                     <option>большой</option>
                 </Select>
                 <Select onChange={(e) => this.setState({ trashType: e.target.value })} defaultValue="none">
-                    <option value="none" disabled>Укажите тип свалки</option>
-                    <option value="red">крупно-габаритный</option>
-                    <option value="question">строительный мусор</option>
-                    <option value="picnic">бытовые отходы</option>
+                    <option value="none" disabled>Укажите тип</option>
+                    <option value="red">Несанкционированные свалки</option>
+                    <option value="question">Другое (кузовы машин и т.д.)</option>
+                    <option value="picnic">Мусор после пикников</option>
                 </Select>
-                <SubmitButton type="submit">Отправить</SubmitButton>
+                <Input onChange={e=>this.setState({additionalText: e.target.value})} placeholder='Дополнительно'/>
+                <SubmitButton type="submit" >Отправить</SubmitButton>
             </Form>
         )
     }

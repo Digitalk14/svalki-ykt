@@ -3,6 +3,7 @@ import L from 'leaflet'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import redBin from '../../images/red_bin.png'
 import greenBin from '../../images/green_bin.png'
+import newBin from '../../images/loading.png'
 import question from '../../images/question.png'
 import picnic from '../../images/picnic.png'
 import { svalkiExamples } from '../svalki/svalkiExamples'
@@ -10,6 +11,7 @@ import { LocationMarker } from '../map/locationMarker'
 import styled from 'styled-components'
 import { Text } from '../typography'
 import axios from 'axios'
+import { Header } from './header'
 
 const MapWrapper = styled.div`
     width: 100%;
@@ -43,6 +45,12 @@ let questionIcon = L.icon({
 })
 let picnicIcon = L.icon({
     iconUrl: picnic,
+    iconSize: iconSize,
+    iconAnchor: iconAnchor,
+    popupAnchor: popupAnchor
+})
+let newIcon = L.icon({
+    iconUrl: newBin,
     iconSize: iconSize,
     iconAnchor: iconAnchor,
     popupAnchor: popupAnchor
@@ -89,6 +97,8 @@ export default class Map extends React.Component {
                     return questionIcon;
                 case 'picnic':
                     return picnicIcon
+                case 'new':
+                    return newIcon
             }
         }
         return (
@@ -99,21 +109,35 @@ export default class Map extends React.Component {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     <LocationMarker passPosition={this.getPosition} />
-                    {this.state.dumps.map(({ positionLat, positionLon, status, images, text, name, category, checkStatus, level, additional }, index) => {
+                    {this.state.dumps.map(({ positionLat, positionLon, status, images, text, name, category, checkStatus, level, additional, id }, index) => {
                         let position = []
                         position.push(positionLat)
                         position.push(positionLon)
+                        const TrashCategory = () =>{
+                            switch(status){
+                                case 'red':
+                                    return 'Несанкционированные свалки'
+                                case 'green':
+                                    return 'Убрано'
+                                case 'question':
+                                    return 'Другое (кузовы машин и т.д.)'
+                                case 'picnic':
+                                    return 'Мусор после пикников'
+                                case 'new':
+                                    return 'На проверке'
+                            }
+                        }
                         return (
                             <Marker key={index} position={position} icon={switchIcon(status)}>
                                 <Popup minWidth={350}>
-                                    {images.split(';').map((image, i) =>{
-                                        return(
+                                    {images.split(';').map((image, i) => {
+                                        return (
                                             <LitterImage key={i} src={image} />
                                         )
                                     }
                                     )}
-                                    <Text>Название: {name}</Text>
-                                    <Text>Категория мусора: {category}</Text>
+                                    <Text>Название: Свалка №{id}</Text>
+                                    <Text>Категория мусора: {TrashCategory()}</Text>
                                     <Text>Статус точки: {checkStatus}</Text>
                                     <Text>Степень замусоренности: {level}</Text>
                                     {additional ? <Text>Доп. информация: {additional}</Text> : null}
