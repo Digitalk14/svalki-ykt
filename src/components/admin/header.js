@@ -1,18 +1,28 @@
-import React from 'react'
+import React, { useSa, useState } from 'react'
 import styled from 'styled-components'
 
 const HeaderBlock = styled.header`
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
     background: white;
+    z-index: 100;
+    height: 100px;
 `
 
-export const Header = () => {
-    return(
+export const Header = (props) => {
+    const Statuses = ['new', 'green', 'question', 'red', 'picnic']
+    const handleChange = (selectedStatus) => {
+        props.pushStatus(selectedStatus)
+    }
+    return (
         <HeaderBlock>
-
+            <select onChange={e =>handleChange(e.target.value)}>
+                <option value='all'>Без фильтра</option>
+                {Statuses.map((status, i) =>
+                    <option key={i} value={status}>{status}</option>
+                )}
+            </select>
         </HeaderBlock>
     )
+
+
 }

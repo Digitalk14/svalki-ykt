@@ -61,9 +61,11 @@ export default class Map extends React.Component {
         super(props);
         this.state = {
             markers: svalkiExamples,
-            dumps: []
+            dumps: [],
+            filteredStatus: 'all'
         }
         this.getPosition = this.getPosition.bind(this)
+        this.filterStatus = this.filterStatus.bind(this)
     }
     componentDidMount() {
         axios.get('/api/dumps.php')
@@ -85,6 +87,11 @@ export default class Map extends React.Component {
             markers: state
         })
     }
+    filterStatus(status){
+        this.setState({
+            filteredStatus: status
+        })
+    }
     render() {
         const position = [62.027115, 129.732188] //Yakutsk
         const switchIcon = (typeOfIcon) => {
@@ -103,18 +110,27 @@ export default class Map extends React.Component {
         }
         return (
             <MapWrapper >
-                <MapContainer style={{ height: "100vh", width: '100%' }} center={position} zoom={13} scrollWheelZoom={true} >
+                <Header pushStatus={(e)=>this.filterStatus(e)}/>
+                <MapContainer style={{ height: '100%', width: '100%' }} center={position} zoom={13} scrollWheelZoom={true} >
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     <LocationMarker passPosition={this.getPosition} />
-                    {this.state.dumps.map(({ positionLat, positionLon, status, images, text, name, category, checkStatus, level, additional, id }, index) => {
+                    {this.state.dumps
+                    .filter(stat=> {
+                        if(this.state.filteredStatus==='all'){
+                            return true
+                        }else if(stat.status===this.state.filteredStatus){
+                            return true
+                        }
+                    })
+                    .map(({ positionLat, positionLon, status, images, text, name, category, checkStatus, level, additional, id }, index) => {
                         let position = []
                         position.push(positionLat)
                         position.push(positionLon)
-                        const TrashCategory = () =>{
-                            switch(status){
+                        const TrashCategory = () => {
+                            switch (status) {
                                 case 'red':
                                     return 'Несанкционированные свалки'
                                 case 'green':
