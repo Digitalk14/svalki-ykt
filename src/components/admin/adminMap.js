@@ -68,7 +68,7 @@ export default class Map extends React.Component {
         this.filterStatus = this.filterStatus.bind(this)
     }
     componentDidMount() {
-        axios.get('/api/dumps.php')
+        axios.get('/api/dumpsAdmin.php')
             .then(res => {
                 this.setState({
                     dumps: res.data
@@ -125,7 +125,7 @@ export default class Map extends React.Component {
                             return true
                         }
                     })
-                    .map(({ positionLat, positionLon, status, images, text, name, category, checkStatus, level, additional, id }, index) => {
+                    .map(({ positionLat, positionLon, status, images, checkStatus, level, additional, id, email, phone }, index) => {
                         let position = []
                         position.push(positionLat)
                         position.push(positionLon)
@@ -156,6 +156,9 @@ export default class Map extends React.Component {
                                     <Text>Категория мусора: {TrashCategory()}</Text>
                                     <Text>Статус точки: {checkStatus}</Text>
                                     <Text>Степень замусоренности: {level}</Text>
+                                    <Text>e-mail: <a href={`mailto:${email}`}>{email}</a></Text>
+                                    {phone? <Text>Телефон: <a href={`tel:${phone}`}>{phone}</a></Text>:null}
+                                    <Text></Text>
                                     {additional ? <Text>Доп. информация: {additional}</Text> : null}
                                 </Popup>
                             </Marker>

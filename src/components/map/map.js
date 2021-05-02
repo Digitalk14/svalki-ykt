@@ -10,6 +10,7 @@ import { svalkiExamples } from '../svalki/svalkiExamples'
 import { LocationMarker } from './locationMarker'
 import styled from 'styled-components'
 import { Text } from '../typography'
+import axios from 'axios'
 
 const MapWrapper = styled.div`
     width: 100%;
@@ -65,9 +66,17 @@ export default class Map extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            markers: svalkiExamples,
+            markers: [],
         }
         this.getPosition = this.getPosition.bind(this)
+    }
+    componentDidMount() {
+        axios.get('/api/dumps.php')
+            .then(res => {
+                this.setState({
+                    markers: res.data
+                })
+            })
     }
     getPosition(lat, lon, trashType) {
         let state = [...this.state.markers]
@@ -105,13 +114,35 @@ export default class Map extends React.Component {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     <LocationMarker passPosition={this.getPosition} />
-                    {this.state.markers.map(({ position, status, images, text, name, category, checkStatus, level, additional }, index) => {
+                    {this.state.markers.map(({ positionLat, positionLon, status, images, text, name, category, checkStatus, level, additional, id }, index) => {
+                        let position = []
+                        position.push(positionLat)
+                        position.push(positionLon)
+                        const TrashCategory = () => {
+                            switch (status) {
+                                case 'red':
+                                    return 'Несанкционированные свалки'
+                                case 'green':
+                                    return 'Убрано'
+                                case 'question':
+                                    return 'Другое (кузовы машин и т.д.)'
+                                case 'picnic':
+                                    return 'Мусор после пикников'
+                                case 'new':
+                                    return 'На проверке'
+                            }
+                        }
                         return (
                             <Marker key={index} position={position} icon={switchIcon(status)}>
                                 <Popup minWidth={350}>
-                                    <LitterImage src={images[0]} />
-                                    <Text>Название: {name}</Text>
-                                    <Text>Категория мусора: {category}</Text>
+                                    {images.split(';').map((image, i) => {
+                                        return (
+                                            <LitterImage key={i} src={image} />
+                                        )
+                                    }
+                                    )}
+                                    <Text>Название: Свалка №{id}</Text>
+                                    <Text>Категория мусора: {TrashCategory()}</Text>
                                     <Text>Статус точки: {checkStatus}</Text>
                                     <Text>Степень замусоренности: {level}</Text>
                                     {additional ? <Text>Доп. информация: {additional}</Text> : null}

@@ -1,8 +1,8 @@
 <?php
 
-$host = 'localhost';
+$host = '127.0.0.1';
 $user = 'root';
-$password = '';
+$password = 'Akmid864197532';
 $database = 'svalki_ykt';
 // $host = 'localhost';
 // $user = 'u1187016_default';

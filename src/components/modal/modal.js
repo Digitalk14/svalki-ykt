@@ -90,10 +90,12 @@ export default class Modal extends React.Component {
             data: {
                 positionLat: this.props.positionLat,
                 positionLon: this.props.positionLon,
-                status: 'new',
+                status: this.state.trashType,
                 checkStatus: 'на проверке',
                 level: this.state.trashAmount,
                 additional: this.state.additionalText,
+                email: this.state.userEmail,
+                phone: this.state.userPhone || '',
                 images: 'https://cdn.sierrasun.com/wp-content/uploads/sites/4/2020/08/Trashproblem-tdt-081420-1-1024x1024.jpg'
             }
         }).then(res =>
@@ -146,13 +148,13 @@ export default class Modal extends React.Component {
                             <option>средний</option>
                             <option>большой</option>
                         </Select>
-                        <Input valid={true} onChange={e => this.setState({ additionalText: e.target.value })} placeholder='Краткое описание*' />
                         <Input
                             onChange={e => this.setState({ userEmail: e.target.value })}
                             placeholder='E-mail*'
                             valid={this.state.handleError && this.state.userEmail.length < 1 ? false : true}
                         />
                         <Input valid={true} onChange={e => this.setState({ userPhone: e.target.value })} placeholder='Номер телефона' />
+                        <Input valid={true} onChange={e => this.setState({ additionalText: e.target.value })} placeholder='Краткое описание' />
                         <SubmitButton type="submit" >Отправить</SubmitButton>
                     </>
                 }

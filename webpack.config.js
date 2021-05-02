@@ -49,7 +49,7 @@ module.exports = {
         open: true,
         hot: true,
         proxy: {
-            '/api':'http://localhost:3051',
+            '/api':'http://127.0.0.1:3051',
         }
     }
 };
