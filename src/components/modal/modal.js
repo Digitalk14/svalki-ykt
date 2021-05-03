@@ -1,11 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import {Form, SubmitButton, Select, Input, SubmitModal } from '../modal/formStyles'
-
-const IconImg = styled.img`
-    width: 20px;
-`
+import { Form, SubmitButton, Select, Input, SubmitModal } from '../modal/formStyles'
+import { Statuses, TrashAmounts } from '../statuses/statuses'
 
 export default class Modal extends React.Component {
     constructor(props) {
@@ -92,9 +89,9 @@ export default class Modal extends React.Component {
                             valid={this.state.handleError && this.state.trashType === '' ? false : true}
                         >
                             <option value="none" disabled>Укажите тип</option>
-                            <option value="Несанкционированные свалки">Несанкционированные свалки</option>
-                            <option value="Мусор после пикников">Мусор после пикников</option>
-                            <option value="Другое (кузовы машин и т.д.)">Другое (кузовы машин и т.д.)</option>
+                            {Statuses.filter(x=>x !== 'Убрано'&&x!=='new').map((status,id)=>
+                                <option key={id} value={status}>{status}</option>
+                            )}
                         </Select>
                         <Select
                             defaultValue="none"
@@ -102,9 +99,9 @@ export default class Modal extends React.Component {
                             valid={this.state.handleError && this.state.trashAmount === '' ? false : true}
                         >
                             <option value="none" disabled>Укажите объём свалки</option>
-                            <option>малый</option>
-                            <option>средний</option>
-                            <option>большой</option>
+                            {TrashAmounts.map((amount,i)=>
+                            <option key={i} value={amount}>{amount}</option>
+                            )}
                         </Select>
                         <Input
                             onChange={e => this.setState({ userEmail: e.target.value })}

@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { TextBox } from '../typography'
 import axios from 'axios'
 import { Header } from './header'
-import { Statuses } from '../statuses/statuses'
+import { Statuses, TrashAmounts } from '../statuses/statuses'
 import { SwitchIcon } from '../map/switchIcon'
 import {Form, SubmitButton, Select, Input} from '../modal/formStyles'
 
@@ -120,12 +120,7 @@ export default class Map extends React.Component {
                                                 Категория мусора:
                                                 <Select onChange={e => this.handleStates(e.target.value, 'status', id)}>
                                                     <option value={status}>{status}</option>
-                                                    {[
-                                                        'Несанкционированные свалки',
-                                                        'Мусор после пикников',
-                                                        'Другое (кузовы машин и т.д.)',
-                                                        'Убрано'
-                                                    ].filter(x => x !== status).map((x, i) =>
+                                                    {Statuses.filter(x => x !== status).map((x, i) =>
                                                         <option key={i} value={x}>{x}</option>)}
                                                 </Select>
                                             </TextBox>
@@ -140,7 +135,7 @@ export default class Map extends React.Component {
                                                 Степень замусоренности:
                                                 <Select onChange={e => this.handleStates(e.target.value, 'level', id)}>
                                                     <option value={level}>{level}</option>
-                                                    {['малый', 'средний', 'большой'].filter(x => x !== level).map((x, i) =>
+                                                    {TrashAmounts.filter(x => x !== level).map((x, i) =>
                                                         <option key={i} value={x}>{x}</option>
                                                     )}
                                                 </Select>
