@@ -1,22 +1,15 @@
 import React from 'react'
-import L from 'leaflet'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import redBin from '../../images/red_bin.png'
-import greenBin from '../../images/green_bin.png'
-import newBin from '../../images/loading.png'
-import question from '../../images/question.png'
-import picnic from '../../images/picnic.png'
 import { svalkiExamples } from '../svalki/svalkiExamples'
 import { LocationMarker } from '../map/locationMarker'
 import styled from 'styled-components'
 import { TextBox } from '../typography'
 import axios from 'axios'
 import { Header } from './header'
+import { Statuses } from '../statuses/statuses'
+import { SwitchIcon } from '../map/switchIcon'
+import {Form, SubmitButton, Select, Input} from '../modal/formStyles'
 
-const Form = styled.form`
-    display: flex;
-    flex-direction: column;
-`
 
 const MapWrapper = styled.div`
     width: 100%;
@@ -26,71 +19,6 @@ const MapWrapper = styled.div`
 const LitterImage = styled.img`
     width: 100%;
 `
-const SubmitButton = styled.button`
-    background: #91bb57;
-    border: none;
-    padding: 5px;
-    color: white;
-    border-radius: 3px;
-    width: 300px;
-    box-sizing: border-box;
-    outline: none;
-`
-const Select = styled.select`
-    margin: 0 0 5px 0;
-    padding: 5px;
-    border: 1px solid #8080807d;
-    border-radius: 3px;
-    width: 300px;
-    box-sizing: border-box;
-    background: white;
-    outline: none;
-`
-const Input = styled.input`
-    margin: 0 0 5px 0;
-    padding: 5px;
-    border: ${props => props.valid ? '1px solid #8080807d' : '1px solid red'};
-    border-radius: 3px;
-    width: 300px;
-    box-sizing: border-box;
-    background: white;
-    ::-webkit-input-placeholder { 
-        padding: 5px;
-      }
-`
-const iconSize = [25, 25];
-const iconAnchor = [12.5, 41];
-const popupAnchor = [0, -45];
-let redBinIcon = L.icon({
-    iconUrl: redBin,
-    iconSize: iconSize,
-    iconAnchor: iconAnchor,
-    popupAnchor: popupAnchor
-})
-let greenBinIcon = L.icon({
-    iconUrl: greenBin,
-    iconSize: iconSize,
-    iconAnchor: iconAnchor,
-    popupAnchor: popupAnchor
-})
-let questionIcon = L.icon({
-    iconUrl: question,
-    iconSize: iconSize,
-    iconAnchor: iconAnchor,
-    popupAnchor: popupAnchor
-})
-let picnicIcon = L.icon({
-    iconUrl: picnic,
-    iconSize: iconSize,
-    iconAnchor: iconAnchor,
-    popupAnchor: popupAnchor
-})
-let newIcon = L.icon({
-    iconUrl: newBin,
-    iconSize: iconSize,
-    iconAnchor: iconAnchor,
-    popupAnchor: popupAnchor
-})
 
 export default class Map extends React.Component {
     constructor(props) {
@@ -120,7 +48,7 @@ export default class Map extends React.Component {
             this.setState({
                 changedStates: {}
             })
-            const array = { }
+            const array = {}
             array[state] = e
             array['id'] = id
             this.setState({
@@ -155,21 +83,7 @@ export default class Map extends React.Component {
     }
     render() {
         const position = [62.027115, 129.732188] //Yakutsk
-        const switchIcon = (typeOfIcon) => {
-            switch (typeOfIcon) {
-                case 'Несанкционированные свалки':
-                    return redBinIcon;
-                case 'Убрано':
-                    return greenBinIcon;
-                case 'Другое (кузовы машин и т.д.)':
-                    return questionIcon;
-                case 'Мусор после пикников':
-                    return picnicIcon
-                case 'new':
-                    return newIcon
-            }
-        }
-        console.log(this.state.changedStates)
+        
         return (
             <MapWrapper >
                 <Header pushStatus={(e) => this.filterStatus(e)} />
@@ -192,7 +106,7 @@ export default class Map extends React.Component {
                             position.push(positionLat)
                             position.push(positionLon)
                             return (
-                                <Marker key={index} position={position} icon={switchIcon(status)}>
+                                <Marker key={index} position={position} icon={SwitchIcon(status)}>
                                     <Popup minWidth={350}>
                                         <Form>
                                             {images.split(';').map((image, i) => {
@@ -233,7 +147,7 @@ export default class Map extends React.Component {
                                             </TextBox>
                                             <TextBox>e-mail: <a href={`mailto:${email}`}>{email}</a></TextBox>
                                             <TextBox>Телефон: <a href={`tel:${phone}`}>{phone}</a></TextBox>
-                                            <TextBox>Доп. информация: {additional}</TextBox> 
+                                            <TextBox>Доп. информация: {additional}</TextBox>
                                             <SubmitButton type='submit'>Сохранить изменения</SubmitButton>
                                         </Form>
                                     </Popup>

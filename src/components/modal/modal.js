@@ -1,52 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import redTrash from '../../images/red_bin.png'
-import blueTrash from '../../images/question.png'
-import yellowTrash from '../../images/picnic.png'
+import {Form, SubmitButton, Select, Input, SubmitModal } from '../modal/formStyles'
 
 const IconImg = styled.img`
     width: 20px;
-`
-
-const Form = styled.form`
-    display: flex;
-    flex-direction: column;
-`
-const Select = styled.select`
-    margin: 0 0 5px 0;
-    padding: 5px;
-    border: ${props => props.valid ? '1px solid #8080807d' : '1px solid red'};
-    border-radius: 3px;
-    width: 300px;
-    box-sizing: border-box;
-    background: white;
-    outline: none;
-`
-const Input = styled.input`
-    margin: 0 0 5px 0;
-    padding: 5px;
-    border: ${props => props.valid ? '1px solid #8080807d' : '1px solid red'};
-    border-radius: 3px;
-    width: 300px;
-    box-sizing: border-box;
-    background: white;
-    ::-webkit-input-placeholder { 
-        padding: 5px;
-      }
-`
-const SubmitButton = styled.button`
-    background: #91bb57;
-    border: none;
-    padding: 5px;
-    color: white;
-    border-radius: 3px;
-    width: 300px;
-    box-sizing: border-box;
-    outline: none;
-`
-const SubmitModal = styled.div`
-      width: 300px;
 `
 
 export default class Modal extends React.Component {
