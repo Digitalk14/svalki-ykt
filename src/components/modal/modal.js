@@ -134,9 +134,9 @@ export default class Modal extends React.Component {
                             valid={this.state.handleError && this.state.trashType === '' ? false : true}
                         >
                             <option value="none" disabled>Укажите тип</option>
-                            <option value="red">Несанкционированные свалки</option>
-                            <option value="picnic">Мусор после пикников</option>
-                            <option value="question">Другое (кузовы машин и т.д.)</option>
+                            <option value="Несанкционированные свалки">Несанкционированные свалки</option>
+                            <option value="Мусор после пикников">Мусор после пикников</option>
+                            <option value="Другое (кузовы машин и т.д.)">Другое (кузовы машин и т.д.)</option>
                         </Select>
                         <Select
                             defaultValue="none"

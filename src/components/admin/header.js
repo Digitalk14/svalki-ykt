@@ -9,7 +9,7 @@ const HeaderBlock = styled.header`
 `
 
 export const Header = (props) => {
-    const Statuses = ['new', 'green', 'question', 'red', 'picnic']
+    const Statuses = ['new', 'Убрано', 'Другое (кузовы машин и т.д.)', 'Несанкционированные свалки', 'Мусор после пикников']
     const handleChange = (selectedStatus) => {
         props.pushStatus(selectedStatus)
     }

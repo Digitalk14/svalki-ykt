@@ -94,13 +94,13 @@ export default class Map extends React.Component {
         const position = [62.027115, 129.732188] //Yakutsk
         const switchIcon = (typeOfIcon) => {
             switch (typeOfIcon) {
-                case 'red':
+                case 'Несанкционированные свалки':
                     return redBinIcon;
-                case 'green':
+                case 'Убрано':
                     return greenBinIcon;
-                case 'question':
+                case 'Другое (кузовы машин и т.д.)':
                     return questionIcon;
-                case 'picnic':
+                case 'Мусор после пикников':
                     return picnicIcon
                 case 'new':
                     return newIcon
@@ -118,20 +118,6 @@ export default class Map extends React.Component {
                         let position = []
                         position.push(positionLat)
                         position.push(positionLon)
-                        const TrashCategory = () => {
-                            switch (status) {
-                                case 'red':
-                                    return 'Несанкционированные свалки'
-                                case 'green':
-                                    return 'Убрано'
-                                case 'question':
-                                    return 'Другое (кузовы машин и т.д.)'
-                                case 'picnic':
-                                    return 'Мусор после пикников'
-                                case 'new':
-                                    return 'На проверке'
-                            }
-                        }
                         return (
                             <Marker key={index} position={position} icon={switchIcon(status)}>
                                 <Popup minWidth={350}>
@@ -142,7 +128,7 @@ export default class Map extends React.Component {
                                     }
                                     )}
                                     <Text>Название: Свалка №{id}</Text>
-                                    <Text>Категория мусора: {TrashCategory()}</Text>
+                                    <Text>Категория мусора: {status}</Text>
                                     <Text>Статус точки: {checkStatus}</Text>
                                     <Text>Степень замусоренности: {level}</Text>
                                     {additional ? <Text>Доп. информация: {additional}</Text> : null}

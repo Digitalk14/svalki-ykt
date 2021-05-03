@@ -13,3 +13,9 @@ export const Text = styled.p`
     max-width:${(props)=>props?props.maxWidth:'100%'};
     font-size: 16px;
 `
+export const TextBox = styled.div`
+    text-align: ${(props)=>props.textAlign?props.textAlign:'left'};
+    margin: ${(props)=>props.margin?props.margin:'0'};
+    max-width:${(props)=>props?props.maxWidth:'100%'};
+    font-size: 16px;
+`

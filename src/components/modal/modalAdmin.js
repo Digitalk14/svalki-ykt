@@ -66,13 +66,12 @@ export default class Modal extends React.Component {
             data: {
                 positionLat: this.props.positionLat,
                 positionLon: this.props.positionLon,
-                status: 'red',
-                text: 'свалка №б/н',
-                name: 'свалка №TEST',
-                category: 'несанкционированная свалка',
+                status: this.state.trashType,
                 checkStatus: 'на проверке',
-                level: 'много',
-                additional: '',
+                level: this.state.trashAmount,
+                additional: this.state.additionalText,
+                email: 'admin',
+                phone: 'admin',
                 images: 'https://cdn.sierrasun.com/wp-content/uploads/sites/4/2020/08/Trashproblem-tdt-081420-1-1024x1024.jpg'
             }
         }).then(res=>console.log(res))
@@ -101,6 +100,7 @@ export default class Modal extends React.Component {
                     <option value="picnic">бытовые отходы</option>
                 </Select>
                 <SubmitButton type="submit">Отправить</SubmitButton>
+                
             </Form>
         )
     }
