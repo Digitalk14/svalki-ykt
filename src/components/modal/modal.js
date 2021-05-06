@@ -1,8 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
+
 import { Form, SubmitButton, Select, Input, SubmitModal } from '../modal/formStyles'
 import { Statuses, TrashAmounts } from '../statuses/statuses'
+import { UploadButton } from '../uploadCare/uploadCare'
 
 export default class Modal extends React.Component {
     constructor(props) {
@@ -89,7 +91,7 @@ export default class Modal extends React.Component {
                             valid={this.state.handleError && this.state.trashType === '' ? false : true}
                         >
                             <option value="none" disabled>Укажите тип</option>
-                            {Statuses.filter(x=>x !== 'Убрано'&&x!=='new').map((status,id)=>
+                            {Statuses.filter(x => x !== 'Убрано' && x !== 'new').map((status, id) =>
                                 <option key={id} value={status}>{status}</option>
                             )}
                         </Select>
@@ -99,10 +101,11 @@ export default class Modal extends React.Component {
                             valid={this.state.handleError && this.state.trashAmount === '' ? false : true}
                         >
                             <option value="none" disabled>Укажите объём свалки</option>
-                            {TrashAmounts.map((amount,i)=>
-                            <option key={i} value={amount}>{amount}</option>
+                            {TrashAmounts.map((amount, i) =>
+                                <option key={i} value={amount}>{amount}</option>
                             )}
                         </Select>
+                        <UploadButton />
                         <Input
                             onChange={e => this.setState({ userEmail: e.target.value })}
                             placeholder='E-mail*'
