@@ -8,6 +8,8 @@ import { Header } from './header'
 import { SwitchIcon } from '../map/switchIcon'
 import AdminMarker from './adminMarker'
 
+
+
 const MapWrapper = styled.div`
     width: 100%;
     height: 800px;
@@ -26,12 +28,7 @@ export default class Map extends React.Component {
         }
         this.getPosition = this.getPosition.bind(this)
         this.filterStatus = this.filterStatus.bind(this)
-        this.handleStates = this.handleStates.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.getDumpData = this.getDumpData.bind(this)
-    }
-    getDumpData(obj){
-        console.log(obj)
+        this.refreshTheMap = this.refreshTheMap.bind(this)
     }
     componentDidMount() {
         axios.get('/api/dumpsAdmin.php')
@@ -41,41 +38,13 @@ export default class Map extends React.Component {
                 })
             })
     }
-    // componentDidUpdate(prevProps, prevState){
-    //     console.log(this.state.changedStates)
-    // }
-    handleStates(e, state, id) {
-        if (this.state.changedStates.id && this.state.changedStates.id !== id) {
-            this.setState({
-                changedStates: {}
+    refreshTheMap() {
+        axios.get('/api/dumpsAdmin.php')
+            .then(res => {
+                this.setState({
+                    dumps: res.data
+                })
             })
-            const array = {}
-            array[state] = e
-            array['id'] = id
-            this.setState({
-                changedStates: array,
-            })
-        } else {
-            const array = { ...this.state.changedStates }
-            array[state] = e
-            array['id'] = id
-            this.setState({
-                changedStates: array,
-            })
-        }
-
-    }
-    handleSubmit(e) {
-        e.preventDefault()
-        const States = this.state.changedStates
-        for (let i in States) {
-            console.log(i, States[i])
-        }
-        axios({
-            method: 'post',
-            url: '/api/changesDump.php',
-            data: this.state.changedStates
-        }).then(res => console.log(res))
     }
     getPosition(lat, lon, trashType) {
         let state = [...this.state.markers]
@@ -99,7 +68,7 @@ export default class Map extends React.Component {
 
         return (
             <MapWrapper >
-                <Header pushStatus={(e) => this.filterStatus(e)} />
+                <Header pushStatus={(e) => this.filterStatus(e)} isLoggedOut={(e)=>this.props.isLoggedOut(e)}/>
                 <MapContainer style={{ height: '100%', width: '100%' }} center={position} zoom={13} scrollWheelZoom={true} >
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -131,49 +100,8 @@ export default class Map extends React.Component {
                                     email={email}
                                     phone={phone}
                                     additional={additional}
-                                    getDumpData={this.getDumpData}
+                                    refreshTheMap={this.refreshTheMap}
                                 />
-                                // <Marker key={index} position={position} icon={SwitchIcon(status)}>
-                                //     <Popup minWidth={350}>
-                                //         <Form onSubmit={this.handleSubmit}>
-                                //             {images.split(';').map((image, i) => {
-                                //                 return (
-                                //                     <LitterImage key={i} src={image} />
-                                //                 )
-                                //             }
-                                //             )}
-                                //             <TextBox>Название: Свалка №{id}</TextBox>
-                                //             <TextBox>
-                                //                 Категория мусора:
-                                //                 <Select onChange={e => this.handleStates(e.target.value, 'status', id)}>
-                                //                     <option value={status}>{status}</option>
-                                //                     {Statuses.filter(x => x !== status).map((x, i) =>
-                                //                         <option key={i} value={x}>{x}</option>)}
-                                //                 </Select>
-                                //             </TextBox>
-                                //             <TextBox>
-                                //                 Статус точки:
-                                //                 <Select onChange={e => this.handleStates(e.target.value, 'checkStatus', id)}>
-                                //                     <option value={checkStatus}>{checkStatus}</option>
-                                //                     <option value='проверено'>проверено</option>
-                                //                 </Select>
-                                //             </TextBox>
-                                //             <TextBox>
-                                //                 Степень замусоренности:
-                                //                 <Select onChange={e => this.handleStates(e.target.value, 'level', id)} on>
-                                //                     <option value={level}>{level}</option>
-                                //                     {TrashAmounts.filter(x => x !== level).map((x, i) =>
-                                //                         <option key={i} value={x}>{x}</option>
-                                //                     )}
-                                //                 </Select>
-                                //             </TextBox>
-                                //             <TextBox>e-mail: <a href={`mailto:${email}`}>{email}</a></TextBox>
-                                //             <TextBox>Телефон: <a href={`tel:${phone}`}>{phone}</a></TextBox>
-                                //             <TextBox>Доп. информация: {additional}</TextBox>
-                                //             <SubmitButton type='submit'>Сохранить изменения</SubmitButton>
-                                //         </Form>
-                                //     </Popup>
-                                // </Marker>
                             )
                         })}
                 </MapContainer>

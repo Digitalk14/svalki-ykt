@@ -1,5 +1,6 @@
 import React, { useSa, useState } from 'react'
 import styled from 'styled-components'
+import { Logout } from '../Login/login'
 
 const HeaderBlock = styled.header`
     width: 100%;
@@ -21,6 +22,8 @@ export const Header = (props) => {
                     <option key={i} value={status}>{status}</option>
                 )}
             </select>
+            <Logout isLoggedOut={(e)=>props.isLoggedOut(e)}/>
+
         </HeaderBlock>
     )
 

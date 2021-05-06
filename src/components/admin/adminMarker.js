@@ -23,13 +23,6 @@ export default class AdminMarker extends React.Component {
     }
     handleSubmit(e) {
         e.preventDefault()
-
-        let obj = {
-            id: this.props.id,
-            status: this.state.status || this.props.status,
-            checkStatus: this.state.checkStatus || this.props.checkStatus,
-            level: this.state.level || this.props.level
-        }
         axios({
             method: 'post',
             url: '/api/changesDump.php',
@@ -39,17 +32,10 @@ export default class AdminMarker extends React.Component {
                 checkStatus: this.state.checkStatus || this.props.checkStatus,
                 level: this.state.level || this.props.level
             }
-        }).then(res => console.log(res))
-        this.props.getDumpData(obj)
-        // const States = this.state.changedStates
-        // for (let i in States) {
-        //     console.log(i, States[i])
-        // }
-        // axios({
-        //     method: 'post',
-        //     url: '/api/changesDump.php',
-        //     data: this.state.changedStates
-        // }).then(res => console.log(res))
+        })
+            .then(res => this.props.refreshTheMap())
+            .catch(err => console.log(err))
+
     }
     render() {
         return (
@@ -75,7 +61,7 @@ export default class AdminMarker extends React.Component {
                             Статус точки:
                             <Select onChange={e => this.setState({ checkStatus: e.target.value })}>
                                 <option value={this.props.checkStatus}>{this.props.checkStatus}</option>
-                                <option value='проверено'>проверено</option>
+                                <option value={this.props.checkStatus === 'проверено' ? 'не проверено' : 'проверено'}>{this.props.checkStatus === 'проверено' ? 'не проверено' : 'проверено'}</option>
                             </Select>
                         </TextBox>
                         <TextBox>
