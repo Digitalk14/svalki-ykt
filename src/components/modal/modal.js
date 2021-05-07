@@ -15,19 +15,22 @@ export default class Modal extends React.Component {
             additionalText: '',
             userEmail: '',
             userPhone: '',
+            userImages: '',
             handleError: false,
             isSubmit: false,
             modalContent: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChangeType = this.handleChangeType.bind(this)
+        this.getUploadLinks = this.getUploadLinks.bind(this)
     }
     handleSubmit(e) {
         e.preventDefault()
         if (
             this.state.trashAmount === '' ||
             this.state.trashType === '' ||
-            this.state.userEmail.length < 1
+            this.state.userEmail.length < 1 ||
+            this.state.userImages.length<1
         ) {
             this.setState({
                 handleError: true
@@ -53,7 +56,7 @@ export default class Modal extends React.Component {
                 additional: this.state.additionalText,
                 email: this.state.userEmail,
                 phone: this.state.userPhone || '',
-                images: 'https://cdn.sierrasun.com/wp-content/uploads/sites/4/2020/08/Trashproblem-tdt-081420-1-1024x1024.jpg'
+                images: this.state.userImages
             }
         }).then(res =>
             this.setState({
@@ -70,6 +73,11 @@ export default class Modal extends React.Component {
     handleChangeType(e) {
         this.setState({
             trashType: e.target.value,
+        })
+    }
+    getUploadLinks(links){
+        this.setState({
+            userImages: links,
         })
     }
     render() {
@@ -105,7 +113,7 @@ export default class Modal extends React.Component {
                                 <option key={i} value={amount}>{amount}</option>
                             )}
                         </Select>
-                        <UploadButton />
+                        <UploadButton getUploadLinks={e=>this.getUploadLinks(e)}/>
                         <Input
                             onChange={e => this.setState({ userEmail: e.target.value })}
                             placeholder='E-mail*'

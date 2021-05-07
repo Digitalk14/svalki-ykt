@@ -22,8 +22,35 @@ const MapWrapper = styled.div`
 const LitterImage = styled.img`
     width: 100%;
 `
+const ImageWrapper = styled.div`
+    width: 100%;
+    position: relative;
+    white-space: nowrap;
+    height: 200px;
+    display: flex;
 
-
+`
+const ImagesScroller = styled.div`
+    width: 100%;
+    position: absolute;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    top: 0;
+    left: 0;
+    &::-webkit-scrollbar {
+        width: 10px;
+        height: 20px;
+        border: 1px solid grey;
+    }
+    &::-webkit-scrollbar-thumb{
+        background: red;
+        width: 20px;
+        height: 20px;
+    }
+`
+// -webkit-overflow-scrolling: touch;
+//     scroll-snap-type: x mandatory;
 export default class Map extends React.Component {
     constructor(props) {
         super(props);
@@ -70,12 +97,19 @@ export default class Map extends React.Component {
                         return (
                             <Marker key={index} position={position} icon={SwitchIcon(status)}>
                                 <Popup minWidth={350}>
-                                    {images.split(';').map((image, i) => {
-                                        return (
-                                            <LitterImage key={i} src={image} />
-                                        )
-                                    }
-                                    )}
+                                    <ImageWrapper>
+                                        <ImagesScroller>
+                                            {images.split(';').map((image, i) => {
+                                                return (
+
+                                                    <LitterImage key={i} src={image} />
+
+
+                                                )
+                                            }
+                                            )}
+                                        </ImagesScroller>
+                                    </ImageWrapper>
                                     <Text>Название: Свалка №{id}</Text>
                                     <Text>Категория мусора: {status}</Text>
                                     <Text>Статус точки: {checkStatus}</Text>
