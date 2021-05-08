@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Map from '../map/map'
 import { Hero } from '../hero'
 import { Layout } from '../layout'
@@ -7,19 +7,34 @@ import { Counter } from '../counter'
 import { Legends } from '../legends'
 import { Targets } from '../targets'
 import { HowTo } from '../howTo'
-import {Notification} from '../notification/notification'
+import { Notification } from '../notification/notification'
 
 export const Main = () => {
+    const [isShow, setIsShow] = useState(false)
+    const [notifContent, setNotifContent] = useState({
+        message: '',
+        status: ''
+    })
+    const showNotification = (message, status) => {
+        setIsShow(true)
+        setNotifContent({ ...notifContent, message: message, status: status })
+        setTimeout(() => {
+            setIsShow(false)
+        }, 3000)
+    }
     return (
         <Layout >
             <Theme />
             <Hero />
-            <Map />
+            <Map showNotification={showNotification} />
             <Legends />
             <Counter />
             <Targets />
             <HowTo />
-            <Notification show message='hello'/>
+            {isShow ?
+                <Notification show message={notifContent.message} status={notifContent.status} />
+                : null
+            }
         </Layout>
     )
 }

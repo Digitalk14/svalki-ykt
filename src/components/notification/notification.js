@@ -6,8 +6,7 @@ const Notif = styled.div`
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    min-height: 50px;
-    width: 300px;
+    padding: 10px 20px;
     background: ${props => props.status === 'error' ? 'red' : 'green'};
     z-index: 1000;
     display: flex;
@@ -20,15 +19,6 @@ const P = styled.p`
     margin: 0;
 `
 
-export const Notification = ({ message, status, show }) => {
-    const [isShow, setIsShow] = useState(show)
-    useEffect(()=>{
-        setTimeout(()=>{
-            setIsShow(false)
-        },3000)
-    },[])
-    if (isShow) {
-        return <Notif status={status}><P>{message}</P></Notif>
-    }
-    return null
+export const Notification = ({ message, status }) => {
+    return <Notif status={status}><P>{message}</P></Notif>
 }

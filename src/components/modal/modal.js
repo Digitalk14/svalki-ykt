@@ -59,9 +59,7 @@ export default class Modal extends React.Component {
                 images: this.state.userImages
             }
         }).then(res =>
-            this.setState({
-                modalContent: 'Благодарим за неравнодушие!',
-            }),
+            this.props.showNotification('Благодарим за неравнодушие!',''),
             this.props.refreshTheMap('test')
         )
             .catch(err =>

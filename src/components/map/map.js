@@ -102,7 +102,7 @@ export default class Map extends React.Component {
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <LocationMarker passPosition={this.getPosition} refreshTheMap={this.refreshTheMap} />
+                    <LocationMarker passPosition={this.getPosition} refreshTheMap={this.refreshTheMap} showNotification={this.props.showNotification}/>
                     {this.state.markers.map(({ positionLat, positionLon, status, images, text, name, category, checkStatus, level, additional, id }, index) => {
                         let position = []
                         position.push(positionLat)
