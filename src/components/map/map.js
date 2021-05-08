@@ -21,14 +21,16 @@ const MapWrapper = styled.div`
 `
 const LitterImage = styled.img`
     width: 100%;
+    height: 300px;
+    object-fit: contain;
 `
 const ImageWrapper = styled.div`
     width: 100%;
     position: relative;
     white-space: nowrap;
-    height: 200px;
+    height: 300px;
     display: flex;
-
+    margin: 0 0 30px 0;
 `
 const ImagesScroller = styled.div`
     width: 100%;
@@ -41,12 +43,13 @@ const ImagesScroller = styled.div`
     &::-webkit-scrollbar {
         width: 10px;
         height: 20px;
-        border: 1px solid grey;
+        border: none;
     }
     &::-webkit-scrollbar-thumb{
-        background: red;
+        background: #d6dee1;
         width: 20px;
         height: 20px;
+        border-radius: 20px;
     }
 `
 // -webkit-overflow-scrolling: touch;
@@ -58,6 +61,7 @@ export default class Map extends React.Component {
             markers: [],
         }
         this.getPosition = this.getPosition.bind(this)
+        this.refreshTheMap = this.refreshTheMap.bind(this)
     }
     componentDidMount() {
         axios.get('/api/dumps.php')
@@ -66,6 +70,15 @@ export default class Map extends React.Component {
                     markers: res.data
                 })
             })
+    }
+    refreshTheMap() {
+        axios.get('/api/dumps.php')
+            .then(res => {
+                this.setState({
+                    markers: res.data
+                })
+            })
+        console.log('updated')
     }
     getPosition(lat, lon, trashType) {
         let state = [...this.state.markers]
@@ -89,7 +102,7 @@ export default class Map extends React.Component {
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <LocationMarker passPosition={this.getPosition} />
+                    <LocationMarker passPosition={this.getPosition} refreshTheMap={this.refreshTheMap} />
                     {this.state.markers.map(({ positionLat, positionLon, status, images, text, name, category, checkStatus, level, additional, id }, index) => {
                         let position = []
                         position.push(positionLat)
@@ -99,12 +112,9 @@ export default class Map extends React.Component {
                                 <Popup minWidth={350}>
                                     <ImageWrapper>
                                         <ImagesScroller>
-                                            {images.split(';').map((image, i) => {
+                                            {images.split(';').filter(x => x.length > 2).map((image, i) => {
                                                 return (
-
                                                     <LitterImage key={i} src={image} />
-
-
                                                 )
                                             }
                                             )}

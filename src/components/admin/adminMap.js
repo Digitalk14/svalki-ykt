@@ -74,7 +74,7 @@ export default class Map extends React.Component {
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <LocationMarker passPosition={this.getPosition} />
+                    <LocationMarker passPosition={this.getPosition} updateDupms={this.refreshTheMap}/>
                     {this.state.dumps
                         .filter(stat => {
                             if (this.state.filteredStatus === 'all') {

@@ -27,6 +27,7 @@ export const LocationMarker = (props) => {
                 getPosition={getPosition}
                 positionLat={position.latitude}
                 positionLon={position.longitude}
+                refreshTheMap={props.refreshTheMap}
                 />
             </Popup>
 

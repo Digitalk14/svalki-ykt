@@ -29,8 +29,8 @@ export default class Modal extends React.Component {
         if (
             this.state.trashAmount === '' ||
             this.state.trashType === '' ||
-            this.state.userEmail.length < 1 ||
-            this.state.userImages.length<1
+            this.state.userEmail.length < 1
+            // this.state.userImages.length<1
         ) {
             this.setState({
                 handleError: true
@@ -62,6 +62,7 @@ export default class Modal extends React.Component {
             this.setState({
                 modalContent: 'Благодарим за неравнодушие!',
             }),
+            this.props.refreshTheMap('test')
         )
             .catch(err =>
                 this.setState({
@@ -70,12 +71,13 @@ export default class Modal extends React.Component {
                 }),
             )
     }
+
     handleChangeType(e) {
         this.setState({
             trashType: e.target.value,
         })
     }
-    getUploadLinks(links){
+    getUploadLinks(links) {
         this.setState({
             userImages: links,
         })
@@ -113,7 +115,7 @@ export default class Modal extends React.Component {
                                 <option key={i} value={amount}>{amount}</option>
                             )}
                         </Select>
-                        <UploadButton getUploadLinks={e=>this.getUploadLinks(e)}/>
+                        <UploadButton getUploadLinks={e => this.getUploadLinks(e)} />
                         <Input
                             onChange={e => this.setState({ userEmail: e.target.value })}
                             placeholder='E-mail*'
@@ -124,7 +126,6 @@ export default class Modal extends React.Component {
                         <SubmitButton type="submit" >Отправить</SubmitButton>
                     </>
                 }
-
             </Form>
         )
     }

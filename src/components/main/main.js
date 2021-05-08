@@ -7,6 +7,7 @@ import { Counter } from '../counter'
 import { Legends } from '../legends'
 import { Targets } from '../targets'
 import { HowTo } from '../howTo'
+import {Notification} from '../notification/notification'
 
 export const Main = () => {
     return (
@@ -18,6 +19,7 @@ export const Main = () => {
             <Counter />
             <Targets />
             <HowTo />
+            <Notification show message='hello'/>
         </Layout>
     )
 }

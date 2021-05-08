@@ -18,6 +18,10 @@ export const LocationMarker = (props) => {
         props.passPosition(position.latitude, position.longitude, trashType)
         position.latitude = 0
     }
+    const refreshTheMap = (t) =>{
+        props.updateDupms()
+        console.log(t)
+    }
     return (
         position.latitude !== 0 ?
             <Popup
@@ -25,6 +29,7 @@ export const LocationMarker = (props) => {
             >
                 <Modal
                 getPosition={getPosition}
+                refreshTheMap={()=>refreshTheMap}
                 />
             </Popup>
 
