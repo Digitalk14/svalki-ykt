@@ -62,6 +62,7 @@ export default class Map extends React.Component {
         }
         this.getPosition = this.getPosition.bind(this)
         this.refreshTheMap = this.refreshTheMap.bind(this)
+        this.closePopup = this.closePopup.bind(this)
     }
     componentDidMount() {
         axios.get('/api/dumps.php')
@@ -69,6 +70,10 @@ export default class Map extends React.Component {
                 this.setState({
                     markers: res.data
                 })
+            })
+            .catch(err=>{
+                console.log(err)
+                this.props.showNotification('Проблема при загрузке карты','error')
             })
     }
     refreshTheMap() {
@@ -78,7 +83,14 @@ export default class Map extends React.Component {
                     markers: res.data
                 })
             })
-        console.log('updated')
+            .catch(err=>{
+                console.log(err)
+                this.props.showNotification('Проблема при загрузке карты','error')
+            })
+    }
+    closePopup(){
+        console.log(this.popupRef.current)
+        this.popupRef.current._source._map._popup._closeButton.onclick()
     }
     getPosition(lat, lon, trashType) {
         let state = [...this.state.markers]
@@ -97,19 +109,24 @@ export default class Map extends React.Component {
 
         return (
             <MapWrapper >
-                <MapContainer style={{ height: "100%" }} center={position} zoom={13} scrollWheelZoom={true} >
+                <MapContainer style={{ height: "100%" }} center={position} zoom={13} scrollWheelZoom={true} c>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <LocationMarker passPosition={this.getPosition} refreshTheMap={this.refreshTheMap} showNotification={this.props.showNotification}/>
+                    <LocationMarker
+                        passPosition={this.getPosition}
+                        refreshTheMap={this.refreshTheMap}
+                        showNotification={this.props.showNotification}
+                        closePopup={this.closePopup}
+                    />
                     {this.state.markers.map(({ positionLat, positionLon, status, images, text, name, category, checkStatus, level, additional, id }, index) => {
                         let position = []
                         position.push(positionLat)
                         position.push(positionLon)
                         return (
                             <Marker key={index} position={position} icon={SwitchIcon(status)}>
-                                <Popup minWidth={350}>
+                                <Popup minWidth={350} >
                                     <ImageWrapper>
                                         <ImagesScroller>
                                             {images.split(';').filter(x => x.length > 2).map((image, i) => {

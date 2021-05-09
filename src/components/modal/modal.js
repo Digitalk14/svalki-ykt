@@ -17,8 +17,6 @@ export default class Modal extends React.Component {
             userPhone: '',
             userImages: '',
             handleError: false,
-            isSubmit: false,
-            modalContent: ''
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChangeType = this.handleChangeType.bind(this)
@@ -40,7 +38,6 @@ export default class Modal extends React.Component {
             this.setState({
                 handleError: false,
                 isSubmit: true,
-                modalContent: 'Загрузка. Пожалуйста подождите'
             })
         }
 
@@ -58,15 +55,25 @@ export default class Modal extends React.Component {
                 phone: this.state.userPhone || '',
                 images: this.state.userImages
             }
-        }).then(res =>
-            this.props.showNotification('Благодарим за неравнодушие!',''),
-            this.props.refreshTheMap('test')
-        )
-            .catch(err =>
+        })
+            .then(res => {
+                this.props.showNotification('Благодарим за неравнодушие!', ''),
+                this.props.refreshTheMap(),
                 this.setState({
-                    modalContent: 'Упс, что-то пошло не так!',
-                    isSubmit: false
+                    positionLat: '',
+                    positionLon: '',
+                    trashType: '',
+                    trashAmount: '',
+                    additionalText: '',
+                    userEmail: '',
+                    userPhone: '',
+                    userImages: '',
                 }),
+                this.props.closePopup()
+            })
+            .catch(err =>
+                this.props.showNotification('Упс, что-то пошло не так!', 'error'),
+                this.props.closePopup()
             )
     }
 
@@ -83,47 +90,36 @@ export default class Modal extends React.Component {
     render() {
         return (
             <Form onSubmit={this.handleSubmit}>
-                {this.state.isSubmit ?
-                    <SubmitModal>
-                        <h1 style={{ textAlign: 'center' }}>
-                            {this.state.modalContent}
-                        </h1>
-
-                    </SubmitModal>
-                    :
-                    <>
-                        Заполните поля:
-                        <Select
-                            onChange={(e) => this.setState({ trashType: e.target.value })}
-                            defaultValue="none"
-                            valid={this.state.handleError && this.state.trashType === '' ? false : true}
-                        >
-                            <option value="none" disabled>Укажите тип</option>
-                            {Statuses.filter(x => x !== 'Убрано' && x !== 'new').map((status, id) =>
-                                <option key={id} value={status}>{status}</option>
-                            )}
-                        </Select>
-                        <Select
-                            defaultValue="none"
-                            onChange={(e) => this.setState({ trashAmount: e.target.value })}
-                            valid={this.state.handleError && this.state.trashAmount === '' ? false : true}
-                        >
-                            <option value="none" disabled>Укажите объём свалки</option>
-                            {TrashAmounts.map((amount, i) =>
-                                <option key={i} value={amount}>{amount}</option>
-                            )}
-                        </Select>
-                        <UploadButton getUploadLinks={e => this.getUploadLinks(e)} />
-                        <Input
-                            onChange={e => this.setState({ userEmail: e.target.value })}
-                            placeholder='E-mail*'
-                            valid={this.state.handleError && this.state.userEmail.length < 1 ? false : true}
-                        />
-                        <Input valid={true} onChange={e => this.setState({ userPhone: e.target.value })} placeholder='Номер телефона' />
-                        <Input valid={true} onChange={e => this.setState({ additionalText: e.target.value })} placeholder='Краткое описание' />
-                        <SubmitButton type="submit" >Отправить</SubmitButton>
-                    </>
-                }
+                Заполните поля:
+                <Select
+                    onChange={(e) => this.setState({ trashType: e.target.value })}
+                    defaultValue="none"
+                    valid={this.state.handleError && this.state.trashType === '' ? false : true}
+                >
+                    <option value="none" disabled>Укажите тип</option>
+                    {Statuses.filter(x => x !== 'Убрано' && x !== 'new').map((status, id) =>
+                        <option key={id} value={status}>{status}</option>
+                    )}
+                </Select>
+                <Select
+                    defaultValue="none"
+                    onChange={(e) => this.setState({ trashAmount: e.target.value })}
+                    valid={this.state.handleError && this.state.trashAmount === '' ? false : true}
+                >
+                    <option value="none" disabled>Укажите объём свалки</option>
+                    {TrashAmounts.map((amount, i) =>
+                        <option key={i} value={amount}>{amount}</option>
+                    )}
+                </Select>
+                <UploadButton getUploadLinks={e => this.getUploadLinks(e)} />
+                <Input
+                    onChange={e => this.setState({ userEmail: e.target.value })}
+                    placeholder='E-mail*'
+                    valid={this.state.handleError && this.state.userEmail.length < 1 ? false : true}
+                />
+                <Input valid={true} onChange={e => this.setState({ userPhone: e.target.value })} placeholder='Номер телефона' />
+                <Input valid={true} onChange={e => this.setState({ additionalText: e.target.value })} placeholder='Краткое описание' />
+                <SubmitButton type="submit" >Отправить</SubmitButton>
             </Form>
         )
     }
