@@ -6,15 +6,22 @@ import axios from 'axios'
 const clientId = '759057918565-6mrkbjqh3tnu3hctgs95lo7h9komtr2k.apps.googleusercontent.com'
 
 export const Login = (props) => {
-    const onSuccess = (res) => {
-        axios.get({
+    const onSuccess = ({ googleId }) => {
+        axios({
             url: '/api/users.php',
-            method: 'get'
+            method: 'post',
+            data: {
+                googleId: googleId
+            }
         })
             .then(res => {
-                console.log(res)
-                props.isLoggedIn(true)
-                refreshTokenSetup(res)
+                console.log(res.data)
+                if (res.data) {
+                    props.isLoggedIn(true)
+                    refreshTokenSetup(res)
+                }else{
+                    props.showNotification('Доступ запрещён','error')
+                }
             })
 
     }

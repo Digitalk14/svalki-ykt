@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Map from '../map/map'
 import { Hero } from '../hero'
 import { Layout } from '../layout'
