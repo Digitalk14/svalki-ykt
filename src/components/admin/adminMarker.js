@@ -6,6 +6,7 @@ import { Form, SubmitButton, Select, Input } from '../modal/formStyles'
 import { TextBox } from '../typography'
 import { Statuses, TrashAmounts } from '../statuses/statuses'
 import { ImageWrapper, ImagesScroller, LitterImage } from '../Carousel/carousel'
+import { AdminImages } from '../adminImages/adminImages'
 
 export default class AdminMarker extends React.Component {
     constructor(props) {
@@ -15,8 +16,10 @@ export default class AdminMarker extends React.Component {
             status: undefined,
             checkStatus: undefined,
             level: undefined,
+            updatedImages: undefined,
         }
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.updateImages = this.updateImages.bind(this)
     }
     handleSubmit(e) {
         e.preventDefault()
@@ -27,7 +30,8 @@ export default class AdminMarker extends React.Component {
                 id: this.props.id,
                 status: this.state.status || this.props.status,
                 checkStatus: this.state.checkStatus || this.props.checkStatus,
-                level: this.state.level || this.props.level
+                level: this.state.level || this.props.level,
+                images: this.state.updatedImages || this.props.images
             }
         })
             .then(res => {
@@ -38,22 +42,30 @@ export default class AdminMarker extends React.Component {
             .catch(err => console.log(err))
 
     }
+    updateImages(img){
+        this.setState({
+            updatedImages: img
+        })
+    }
     render() {
+        const Images = this.props.images.split(';').filter(x => x.length > 2)
         return (
             <Marker position={this.props.position} icon={this.props.icon}>
                 <Popup minWidth={350}>
                     <Form onSubmit={this.handleSubmit}>
                         <ImageWrapper>
                             <ImagesScroller>
-                                {this.props.images.split(';').filter(x => x.length > 2).map((image, i) => {
+                                {Images.map((image, i) => {
                                     return (
-                                        <LitterImage key={i} src={image} />
+                                        <a target="_blank" href={image} key={i} >
+                                            <LitterImage src={image} />
+                                        </a>
                                     )
                                 }
                                 )}
                             </ImagesScroller>
                         </ImageWrapper>
-
+                        <AdminImages images={this.props.images} updateImages={e=>this.updateImages(e)} />
                         <TextBox>Название: Свалка №{this.props.id}</TextBox>
                         <TextBox>
                             Категория мусора:

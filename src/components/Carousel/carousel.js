@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from 'styled-components'
 
 export const ImageWrapper = styled.div`
@@ -34,3 +35,10 @@ export const LitterImage = styled.img`
     height: 300px;
     object-fit: contain;
 `
+
+export const UpdateImages = () => {
+    
+    return(
+        <></>
+    )
+}

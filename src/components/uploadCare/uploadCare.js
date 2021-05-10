@@ -33,7 +33,7 @@ export const UploadButton = (props) => {
             multiple
             imagesOnly
             tabs='file camera url gdrive instagram'
-            validators={[maxDimensions(1920, 1080, 5000000)]}
+            validators={[maxDimensions(1920, 1920, 50000000)]}
             imageShrink="1024x1024"
         />
     )
