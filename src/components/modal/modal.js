@@ -91,29 +91,31 @@ export default class Modal extends React.Component {
     render() {
         return (
             <Form onSubmit={this.handleSubmit}>
-                Укажите тип мусора:
+                Укажите тип мусора*:
                 <Select
                     onChange={(e) => this.setState({ trashType: e.target.value })}
                     defaultValue="none"
                     valid={this.state.handleError && this.state.trashType === '' ? false : true}
                 >
+                    <option value='none'>Укажите тип мусора</option>
                     {Statuses.filter(x => x !== 'Убрано' && x !== 'new').map((status, id) =>
                         <option key={id} value={status}>{status}</option>
                     )}
                 </Select>
-                Укажите объём свалки
+                Укажите объём свалки*:
                 <Select
                     defaultValue="none"
                     onChange={(e) => this.setState({ trashAmount: e.target.value })}
                     valid={this.state.handleError && this.state.trashAmount === '' ? false : true}
                 >
+                    <option value="none">Укажите объём свалки</option>
                     {TrashAmounts.map((amount, i) =>
                         <option key={i} value={amount}>{amount}</option>
                     )}
                 </Select>
-                Загрузите фото: (максимум 5 МБ)
+                Загрузите фото*: (максимум 5 МБ)
                 <UploadButton getUploadLinks={e => this.getUploadLinks(e)} />
-                Укажите Ваш e-mail
+                Укажите Ваш e-mail*:
                 <Input
                     onChange={e => this.setState({ userEmail: e.target.value })}
                     placeholder='E-mail*'
