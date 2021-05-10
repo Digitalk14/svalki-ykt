@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const dotenv = require('dotenv').config()
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require("path");
 
@@ -36,6 +37,10 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env.GOOGLE_USER_ID': JSON.stringify(process.env.GOOGLE_USER_ID),
+            'process.env.UPLOAD_CARE_KEY': JSON.stringify(process.env.UPLOAD_CARE_KEY)
+        }),
         new HtmlWebpackPlugin({
             template: 'public/index.html',
             favicon: 'public/favicon.ico'

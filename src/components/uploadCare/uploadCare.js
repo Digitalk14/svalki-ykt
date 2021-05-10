@@ -25,7 +25,7 @@ export const UploadButton = (props) => {
     }
     return (
         <Widget
-            publicKey="07978274072671374ca6"
+            publicKey={process.env.UPLOAD_CARE_KEY}
             locale="ru"
             clearable
             onChange={onChange}

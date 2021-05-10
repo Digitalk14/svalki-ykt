@@ -3,7 +3,7 @@ import { GoogleLogin, GoogleLogout } from 'react-google-login'
 import { refreshTokenSetup } from '../utils/refreshToken'
 import axios from 'axios'
 
-const clientId = '759057918565-6mrkbjqh3tnu3hctgs95lo7h9komtr2k.apps.googleusercontent.com'
+const clientId = process.env.GOOGLE_USER_ID
 
 export const Login = (props) => {
     const onSuccess = ({ googleId }) => {
