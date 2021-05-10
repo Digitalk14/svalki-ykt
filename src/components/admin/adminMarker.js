@@ -45,7 +45,7 @@ export default class AdminMarker extends React.Component {
                     <Form onSubmit={this.handleSubmit}>
                         <ImageWrapper>
                             <ImagesScroller>
-                                {this.props.images.split(';').map((image, i) => {
+                                {this.props.images.split(';').filter(x => x.length > 2).map((image, i) => {
                                     return (
                                         <LitterImage key={i} src={image} />
                                     )

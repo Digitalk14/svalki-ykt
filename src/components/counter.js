@@ -65,8 +65,8 @@ class Counter extends React.Component {
                         Object.entries(dumpsByTypesStates(this.state.counters)).map(([key, value], i) => {
                             return (
                                 <CounterBlock key={i}>
-                                    <Heading fontSize='24px' textAlign='center'>{key}</Heading>
-                                    <Heading fontSize='24px'>{value.count}</Heading>
+                                    <Heading f>{value.count}</Heading>
+                                    <Text fontSize='24px' textAlign='center'>{key}</Text>
                                 </CounterBlock>
                             )
                         })
