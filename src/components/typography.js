@@ -5,7 +5,7 @@ export const Heading = styled.h1`
     margin: ${(props)=>props.margin?props.margin:'0'};
     max-width:${(props)=>props?props.maxWidth:'100%'};
     color: #2c4b58;
-    font-size: 52px;
+    font-size: ${(props) => props?props.fontSize:'52px'};
 `
 export const Text = styled.p`
     text-align: ${(props)=>props.textAlign?props.textAlign:'left'};

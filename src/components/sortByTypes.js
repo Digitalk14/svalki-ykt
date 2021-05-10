@@ -13,3 +13,15 @@ export const dumpsByTypes = () => {
     }
     return types
 }
+export const dumpsByTypesStates = (data) =>{
+    let types = []
+    for(let i in data){
+        if (!(data[i].status in types)) {
+            types[data[i].status] = {}
+            types[data[i].status]['count'] = 1
+        } else {
+            types[data[i].status]['count']++
+        }
+    }
+    return types
+}

@@ -57,19 +57,20 @@ export default class Modal extends React.Component {
             }
         })
             .then(res => {
-                this.props.showNotification('Благодарим за неравнодушие!', ''),
-                this.props.refreshTheMap(),
-                this.setState({
-                    positionLat: '',
-                    positionLon: '',
-                    trashType: '',
-                    trashAmount: '',
-                    additionalText: '',
-                    userEmail: '',
-                    userPhone: '',
-                    userImages: '',
-                }),
-                this.props.closePopup()
+                // this.props.showNotification('Благодарим за неравнодушие!', '')
+                if(typeof window !== 'undefined'){
+                    window.location.reload()
+                }
+                // this.props.refreshTheMap(),
+                // this.setState({
+                //     trashType: '',
+                //     trashAmount: '',
+                //     additionalText: '',
+                //     userEmail: '',
+                //     userPhone: '',
+                //     userImages: '',
+                // }),
+                // this.props.closePopup()
             })
             .catch(err =>
                 this.props.showNotification('Упс, что-то пошло не так!', 'error'),
@@ -90,34 +91,37 @@ export default class Modal extends React.Component {
     render() {
         return (
             <Form onSubmit={this.handleSubmit}>
-                Заполните поля:
+                Укажите тип мусора:
                 <Select
                     onChange={(e) => this.setState({ trashType: e.target.value })}
                     defaultValue="none"
                     valid={this.state.handleError && this.state.trashType === '' ? false : true}
                 >
-                    <option value="none" disabled>Укажите тип</option>
                     {Statuses.filter(x => x !== 'Убрано' && x !== 'new').map((status, id) =>
                         <option key={id} value={status}>{status}</option>
                     )}
                 </Select>
+                Укажите объём свалки
                 <Select
                     defaultValue="none"
                     onChange={(e) => this.setState({ trashAmount: e.target.value })}
                     valid={this.state.handleError && this.state.trashAmount === '' ? false : true}
                 >
-                    <option value="none" disabled>Укажите объём свалки</option>
                     {TrashAmounts.map((amount, i) =>
                         <option key={i} value={amount}>{amount}</option>
                     )}
                 </Select>
+                Загрузите фото: (максимум 5 МБ)
                 <UploadButton getUploadLinks={e => this.getUploadLinks(e)} />
+                Укажите Ваш e-mail
                 <Input
                     onChange={e => this.setState({ userEmail: e.target.value })}
                     placeholder='E-mail*'
                     valid={this.state.handleError && this.state.userEmail.length < 1 ? false : true}
                 />
+                При желании можете оставить свой номер телефона:
                 <Input valid={true} onChange={e => this.setState({ userPhone: e.target.value })} placeholder='Номер телефона' />
+                Дополнительные примечания:
                 <Input valid={true} onChange={e => this.setState({ additionalText: e.target.value })} placeholder='Краткое описание' />
                 <SubmitButton type="submit" >Отправить</SubmitButton>
             </Form>

@@ -14,10 +14,13 @@ export const LocationMarker = (props) => {
             });
         },
     })
-    const closePopup = () =>{
-        popupRef.current._closeButton.click()
+    const closePopup = () => {
+        // Popup.closePopup()
+        // console.log(Popup)
+        // console.log(popupRef.current)
+        // popupRef.current._closeButton.onclick()
     }
-    const getPosition = (trashType) =>{
+    const getPosition = (trashType) => {
         props.passPosition(position.latitude, position.longitude, trashType)
         position.latitude = 0
     }
@@ -26,15 +29,15 @@ export const LocationMarker = (props) => {
             <Popup
                 position={[position.latitude, position.longitude]}
                 ref={popupRef}
-
+                closePopup={e => console.log(e)}
             >
                 <Modal
-                getPosition={getPosition}
-                positionLat={position.latitude}
-                positionLon={position.longitude}
-                refreshTheMap={props.refreshTheMap}
-                showNotification={props.showNotification}
-                closePopup={closePopup}
+                    getPosition={getPosition}
+                    positionLat={position.latitude}
+                    positionLon={position.longitude}
+                    refreshTheMap={props.refreshTheMap}
+                    showNotification={props.showNotification}
+                    closePopup={closePopup}
                 />
             </Popup>
 

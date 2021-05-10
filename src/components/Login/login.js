@@ -15,7 +15,6 @@ export const Login = (props) => {
             }
         })
             .then(res => {
-                console.log(res.data)
                 if (res.data) {
                     props.isLoggedIn(true)
                     refreshTokenSetup(res)

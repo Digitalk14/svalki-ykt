@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import axios from 'axios'
 import { Heading, Text } from './typography'
-import { dumpsByTypes } from './sortByTypes'
+import { dumpsByTypesStates } from './sortByTypes'
 
 const CounterWrapper = styled.div`
     width: 100%;
@@ -26,7 +27,8 @@ const CounterBlock = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    height: 100%;
+    justify-content: space-between;
     @media (max-width:900px){
         width: 45%;
         margin-bottom: 30px;
@@ -36,20 +38,42 @@ const CounterBlock = styled.div`
     }
 `
 
-export const Counter = () => {
-    return (
-        <CounterWrapper>
-            <Heading margin='0 0 40px 0'>
-                Обнаружено:
-            </Heading>
-            <CounterBLocks>
-                {Object.values(dumpsByTypes()).map((block, i) =>
-                    <CounterBlock key={i}>
-                        <Heading>{block.count}</Heading>
-                        <Text>{block.text}</Text>
-                    </CounterBlock>
-                )}
-            </CounterBLocks>
-        </CounterWrapper>
-    )
+class Counter extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            counters: {}
+        }
+
+    }
+    componentDidMount() {
+        axios.get('/api/dumps.php')
+            .then(res => {
+                this.setState({
+                    counters: res.data
+                })
+            })
+    }
+    render() {
+        return (
+            <CounterWrapper>
+                <Heading margin='0 0 40px 0'>
+                    Обнаружено:
+                </Heading>
+                <CounterBLocks>
+                    {
+                        Object.entries(dumpsByTypesStates(this.state.counters)).map(([key, value], i) => {
+                            return (
+                                <CounterBlock key={i}>
+                                    <Heading fontSize='24px' textAlign='center'>{key}</Heading>
+                                    <Heading fontSize='24px'>{value.count}</Heading>
+                                </CounterBlock>
+                            )
+                        })
+                    }
+                </CounterBLocks>
+            </CounterWrapper>
+        )
+    }
 }
+export default Counter
