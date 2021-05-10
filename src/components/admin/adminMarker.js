@@ -5,10 +5,7 @@ import axios from 'axios'
 import { Form, SubmitButton, Select, Input } from '../modal/formStyles'
 import { TextBox } from '../typography'
 import { Statuses, TrashAmounts } from '../statuses/statuses'
-
-const LitterImage = styled.img`
-    width: 100%;
-`
+import { ImageWrapper, ImagesScroller, LitterImage } from '../Carousel/carousel'
 
 export default class AdminMarker extends React.Component {
     constructor(props) {
@@ -42,12 +39,17 @@ export default class AdminMarker extends React.Component {
             <Marker position={this.props.position} icon={this.props.icon}>
                 <Popup minWidth={350}>
                     <Form onSubmit={this.handleSubmit}>
-                        {this.props.images.split(';').map((image, i) => {
-                            return (
-                                <LitterImage key={i} src={image} />
-                            )
-                        }
-                        )}
+                        <ImageWrapper>
+                            <ImagesScroller>
+                                {this.props.images.split(';').map((image, i) => {
+                                    return (
+                                        <LitterImage key={i} src={image} />
+                                    )
+                                }
+                                )}
+                            </ImagesScroller>
+                        </ImageWrapper>
+
                         <TextBox>Название: Свалка №{this.props.id}</TextBox>
                         <TextBox>
                             Категория мусора:

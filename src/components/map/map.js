@@ -5,8 +5,9 @@ import { LocationMarker } from './locationMarker'
 import styled from 'styled-components'
 import { Text } from '../typography'
 import axios from 'axios'
-import { Statuses } from '../statuses/statuses'
 import { SwitchIcon } from './switchIcon'
+import {ImageWrapper, ImagesScroller, LitterImage} from '../Carousel/carousel'
+
 const MapWrapper = styled.div`
     width: 100%;
     max-width: 1200px;
@@ -19,41 +20,7 @@ const MapWrapper = styled.div`
         height: 80vh;
     }
 `
-const LitterImage = styled.img`
-    width: 100%;
-    height: 300px;
-    object-fit: contain;
-`
-const ImageWrapper = styled.div`
-    width: 100%;
-    position: relative;
-    white-space: nowrap;
-    height: 300px;
-    display: flex;
-    margin: 0 0 30px 0;
-`
-const ImagesScroller = styled.div`
-    width: 100%;
-    position: absolute;
-    overflow-y: hidden;
-    overflow-x: scroll;
-    scroll-snap-type: x mandatory;
-    top: 0;
-    left: 0;
-    &::-webkit-scrollbar {
-        width: 10px;
-        height: 20px;
-        border: none;
-    }
-    &::-webkit-scrollbar-thumb{
-        background: #d6dee1;
-        width: 20px;
-        height: 20px;
-        border-radius: 20px;
-    }
-`
-// -webkit-overflow-scrolling: touch;
-//     scroll-snap-type: x mandatory;
+
 export default class Map extends React.Component {
     constructor(props) {
         super(props);
