@@ -30,7 +30,11 @@ export default class AdminMarker extends React.Component {
                 level: this.state.level || this.props.level
             }
         })
-            .then(res => this.props.refreshTheMap())
+            .then(res => {
+                if (typeof window !== 'undefined') {
+                    window.location.reload()
+                }
+            })
             .catch(err => console.log(err))
 
     }
@@ -53,7 +57,7 @@ export default class AdminMarker extends React.Component {
                         <TextBox>Название: Свалка №{this.props.id}</TextBox>
                         <TextBox>
                             Категория мусора:
-                                <Select onChange={e => this.setState({ status: e.target.value })}>
+                                <Select valid={true} onChange={e => this.setState({ status: e.target.value })}>
                                 <option value={this.props.status}>{this.props.status}</option>
                                 {Statuses.filter(x => x !== this.props.status).map((x, i) =>
                                     <option key={i} value={x}>{x}</option>)}
@@ -61,14 +65,14 @@ export default class AdminMarker extends React.Component {
                         </TextBox>
                         <TextBox>
                             Статус точки:
-                            <Select onChange={e => this.setState({ checkStatus: e.target.value })}>
+                            <Select valid={true} onChange={e => this.setState({ checkStatus: e.target.value })}>
                                 <option value={this.props.checkStatus}>{this.props.checkStatus}</option>
                                 <option value={this.props.checkStatus === 'проверено' ? 'не проверено' : 'проверено'}>{this.props.checkStatus === 'проверено' ? 'не проверено' : 'проверено'}</option>
                             </Select>
                         </TextBox>
                         <TextBox>
                             Степень замусоренности:
-                            <Select onChange={e => this.setState({ level: e.target.value })}>
+                            <Select valid={true} onChange={e => this.setState({ level: e.target.value })}>
                                 <option value={this.props.level}>{this.props.level}</option>
                                 {TrashAmounts.filter(x => x !== this.props.level).map((x, i) =>
                                     <option key={i} value={x}>{x}</option>

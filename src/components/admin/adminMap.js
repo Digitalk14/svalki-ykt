@@ -23,11 +23,13 @@ export default class Map extends React.Component {
             markers: svalkiExamples,
             dumps: [],
             filteredStatus: 'all',
+            filteredCheckStatus: 'all',
             changedStates: {},
             changedDumpId: ''
         }
         this.getPosition = this.getPosition.bind(this)
         this.filterStatus = this.filterStatus.bind(this)
+        this.filterCheckStatus = this.filterCheckStatus.bind(this)
         this.refreshTheMap = this.refreshTheMap.bind(this)
     }
     componentDidMount() {
@@ -63,23 +65,39 @@ export default class Map extends React.Component {
             filteredStatus: status
         })
     }
+    filterCheckStatus(status) {
+        console.log(status)
+        this.setState({
+            filteredCheckStatus: status
+        })
+    }
     render() {
         const position = [62.027115, 129.732188] //Yakutsk
 
         return (
             <MapWrapper >
-                <Header pushStatus={(e) => this.filterStatus(e)} isLoggedOut={(e)=>this.props.isLoggedOut(e)}/>
+                <Header
+                    pushStatus={(e) => this.filterStatus(e)}
+                    pushCheckStatus={(e) => this.filterCheckStatus(e)}
+                    isLoggedOut={(e) => this.props.isLoggedOut(e)}
+                    statuses={this.state.dumps}
+                />
                 <MapContainer style={{ height: '100%', width: '100%' }} center={position} zoom={13} scrollWheelZoom={true} >
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <LocationMarker passPosition={this.getPosition} updateDupms={this.refreshTheMap}/>
+                    <LocationMarker passPosition={this.getPosition} updateDupms={this.refreshTheMap} />
                     {this.state.dumps
                         .filter(stat => {
-                            if (this.state.filteredStatus === 'all') {
+                            if (stat.status === this.state.filteredStatus && stat.checkStatus === this.state.filteredCheckStatus) {
                                 return true
-                            } else if (stat.status === this.state.filteredStatus) {
+                            }else if(
+                                (this.state.filteredCheckStatus==='all'&&stat.status === this.state.filteredStatus)||
+                                (this.state.filteredStatus === 'all'&&stat.checkStatus === this.state.filteredCheckStatus)
+                                ){
+                                return true
+                            }else if(this.state.filteredStatus === 'all'&&this.state.filteredCheckStatus==='all'){
                                 return true
                             }
                         })
