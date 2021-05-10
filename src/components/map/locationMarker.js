@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Popup, useMapEvents } from 'react-leaflet'
-import Modal from '../modal/modal'
+import Modal from '../modal/modalAdmin'
 
 export const LocationMarker = (props) => {
     const [position, setPosition] = useState({ latitude: 0, longitude: 0 })

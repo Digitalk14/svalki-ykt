@@ -2,42 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 
-const Form = styled.form`
-    display: flex;
-    flex-direction: column;
-`
-const Select = styled.select`
-    margin: 0 0 5px 0;
-    padding: 5px;
-    border: 1px solid #8080807d;
-    border-radius: 3px;
-    width: 300px;
-    box-sizing: border-box;
-    background: white;
-    outline: none;
-`
-// const Input = styled.input`
-//     margin: 0 0 5px 0;
-//     padding: 5px;
-//     border: 1px solid #8080807d;
-//     border-radius: 3px;
-//     width: 300px;
-//     box-sizing: border-box;
-//     background: white;
-//     ::-webkit-input-placeholder { 
-//         padding: 5px;
-//       }
-// `
-const SubmitButton = styled.button`
-    background: #91bb57;
-    border: none;
-    padding: 5px;
-    color: white;
-    border-radius: 3px;
-    width: 300px;
-    box-sizing: border-box;
-    outline: none;
-`
+import { Form, SubmitButton, Select, Input, SubmitModal } from './formStyles'
+import { Statuses, TrashAmounts } from '../statuses/statuses'
+import { UploadButton } from '../uploadCare/uploadCare'
 
 export default class Modal extends React.Component {
     constructor(props) {
@@ -45,24 +12,38 @@ export default class Modal extends React.Component {
         this.state = {
             trashAmount: '',
             trashType: '',
+            additionalText: '',
+            userEmail: '',
+            userPhone: '',
+            userImages: '',
+            handleError: false,
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChangeType = this.handleChangeType.bind(this)
+        this.getUploadLinks = this.getUploadLinks.bind(this)
     }
     handleSubmit(e) {
         e.preventDefault()
-        if(this.state.trashAmount===''){
-            
-        }
         if (
-            this.state.trashAmount==='' ||
-            this.state.trashType===''
-        ){
+            this.state.trashAmount === '' ||
+            this.state.trashType === '' ||
+            this.state.userEmail.length < 1
+            // this.state.userImages.length<1
+        ) {
+            this.setState({
+                handleError: true
+            })
             return false
+        } else {
+            this.setState({
+                handleError: false,
+                isSubmit: true,
+            })
         }
+
         axios({
             method: 'post',
-            url:'/api/addDump.php',
+            url: '/api/addDump.php',
             data: {
                 positionLat: this.props.positionLat,
                 positionLon: this.props.positionLon,
@@ -70,37 +51,81 @@ export default class Modal extends React.Component {
                 checkStatus: 'на проверке',
                 level: this.state.trashAmount,
                 additional: this.state.additionalText,
-                email: 'admin',
-                phone: 'admin',
-                images: 'https://cdn.sierrasun.com/wp-content/uploads/sites/4/2020/08/Trashproblem-tdt-081420-1-1024x1024.jpg'
+                email: this.state.userEmail,
+                phone: this.state.userPhone || '',
+                images: this.state.userImages
             }
-        }).then(res=>console.log(res))
-        .catch(err=>console.log('Error: ', err))
-        // this.props.getPosition(this.state.trashType)
+        })
+            .then(res => {
+                // this.props.showNotification('Благодарим за неравнодушие!', '')
+                if(typeof window !== 'undefined'){
+                    window.location.reload()
+                }
+                // this.props.refreshTheMap(),
+                // this.setState({
+                //     trashType: '',
+                //     trashAmount: '',
+                //     additionalText: '',
+                //     userEmail: '',
+                //     userPhone: '',
+                //     userImages: '',
+                // }),
+                // this.props.closePopup()
+            })
+            .catch(err =>
+                this.props.showNotification('Упс, что-то пошло не так!', 'error'),
+                this.props.closePopup()
+            )
     }
+
     handleChangeType(e) {
         this.setState({
             trashType: e.target.value,
         })
     }
+    getUploadLinks(links) {
+        this.setState({
+            userImages: links,
+        })
+    }
     render() {
         return (
             <Form onSubmit={this.handleSubmit}>
-                Заполните поля:
-                <Select defaultValue="none" onChange={(e) => this.setState({ trashAmount: e.target.value })}>
-                    <option value="none" disabled>Укажите объём свалки</option>
-                    <option>малый</option>
-                    <option>средний</option>
-                    <option>большой</option>
+                Укажите тип мусора*:
+                <Select
+                    onChange={(e) => this.setState({ trashType: e.target.value })}
+                    defaultValue="none"
+                    valid={this.state.handleError && this.state.trashType === '' ? false : true}
+                >
+                    <option value='none'>Укажите тип мусора</option>
+                    {Statuses.filter(x => x !== 'Убрано' && x !== 'new').map((status, id) =>
+                        <option key={id} value={status}>{status}</option>
+                    )}
                 </Select>
-                <Select onChange={(e) => this.setState({ trashType: e.target.value })} defaultValue="none">
-                    <option value="none" disabled>Укажите тип свалки</option>
-                    <option value="red">крупно-габаритный</option>
-                    <option value="question">строительный мусор</option>
-                    <option value="picnic">бытовые отходы</option>
+                Укажите объём свалки*:
+                <Select
+                    defaultValue="none"
+                    onChange={(e) => this.setState({ trashAmount: e.target.value })}
+                    valid={this.state.handleError && this.state.trashAmount === '' ? false : true}
+                >
+                    <option value="none">Укажите объём свалки</option>
+                    {TrashAmounts.map((amount, i) =>
+                        <option key={i} value={amount}>{amount}</option>
+                    )}
                 </Select>
-                <SubmitButton type="submit">Отправить</SubmitButton>
-                
+                Загрузите фото*: (максимум 5 МБ)
+                <UploadButton getUploadLinks={e => this.getUploadLinks(e)} />
+                Укажите Ваш e-mail*:
+                <Input
+                    onChange={e => this.setState({ userEmail: e.target.value })}
+                    placeholder='E-mail*'
+                    valid={this.state.handleError && this.state.userEmail.length < 1 ? false : true}
+                />
+                При желании можете оставить свой номер телефона:
+                <Input valid={true} onChange={e => this.setState({ userPhone: e.target.value })} placeholder='Номер телефона' />
+                Дополнительные примечания:
+                <Input valid={true} onChange={e => this.setState({ additionalText: e.target.value })} placeholder='Краткое описание' />
+                <SubmitButton type="submit" >Отправить</SubmitButton>
             </Form>
         )
     }
