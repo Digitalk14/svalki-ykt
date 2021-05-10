@@ -6,7 +6,7 @@ import { Form, SubmitButton, Select, Input } from '../modal/formStyles'
 import { TextBox } from '../typography'
 import { Statuses, TrashAmounts } from '../statuses/statuses'
 import { ImageWrapper, ImagesScroller, LitterImage } from '../Carousel/carousel'
-import { AdminImages } from '../adminImages/adminImages'
+import { AdminImages, DeleteImage } from '../adminImages/adminImages'
 
 export default class AdminMarker extends React.Component {
     constructor(props) {
@@ -16,13 +16,15 @@ export default class AdminMarker extends React.Component {
             status: undefined,
             checkStatus: undefined,
             level: undefined,
-            updatedImages: undefined,
+            images: this.props.images.split(';').filter(x => x.length > 2)
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.updateImages = this.updateImages.bind(this)
+        this.deleteImage = this.deleteImage.bind(this)
     }
     handleSubmit(e) {
         e.preventDefault()
+        console.log(this.state.images.join(';'))
         axios({
             method: 'post',
             url: '/api/changesDump.php',
@@ -31,7 +33,7 @@ export default class AdminMarker extends React.Component {
                 status: this.state.status || this.props.status,
                 checkStatus: this.state.checkStatus || this.props.checkStatus,
                 level: this.state.level || this.props.level,
-                images: this.state.updatedImages || this.props.images
+                images: this.state.images.join(';') || this.props.images
             }
         })
             .then(res => {
@@ -42,30 +44,43 @@ export default class AdminMarker extends React.Component {
             .catch(err => console.log(err))
 
     }
-    updateImages(img){
+    updateImages(img) {
+        let currentImages = this.state.images.join(';')
+        console.log(currentImages)
+        currentImages = currentImages + ';' + img
         this.setState({
-            updatedImages: img
+            images: img.split(';').filter(x => x.length > 2)
         })
     }
+    deleteImage(img) {
+        let deleteConfirm = confirm("Вы уверены что хотите удалить изображение?")
+        if(deleteConfirm){
+            let imagesState = this.state.images
+            if(imagesState.includes(img)){
+                imagesState.splice(imagesState.indexOf(img),1)
+                this.setState({
+                    images: imagesState
+                })
+            }
+        }
+    }
     render() {
-        const Images = this.props.images.split(';').filter(x => x.length > 2)
         return (
             <Marker position={this.props.position} icon={this.props.icon}>
                 <Popup minWidth={350}>
                     <Form onSubmit={this.handleSubmit}>
+                        Кликните по изображению чтобы удалить его:
                         <ImageWrapper>
                             <ImagesScroller>
-                                {Images.map((image, i) => {
+                                {this.state.images.map((image, i) => {
                                     return (
-                                        <a target="_blank" href={image} key={i} >
-                                            <LitterImage src={image} />
-                                        </a>
+                                        <LitterImage key={i} src={image} onClick={() => this.deleteImage(image)} />
                                     )
                                 }
                                 )}
                             </ImagesScroller>
                         </ImageWrapper>
-                        <AdminImages images={this.props.images} updateImages={e=>this.updateImages(e)} />
+                        <AdminImages images={this.props.images} updateImages={e => this.updateImages(e)} />
                         <TextBox>Название: Свалка №{this.props.id}</TextBox>
                         <TextBox>
                             Категория мусора:

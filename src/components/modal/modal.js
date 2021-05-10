@@ -27,8 +27,8 @@ export default class Modal extends React.Component {
         if (
             this.state.trashAmount === '' ||
             this.state.trashType === '' ||
-            this.state.userEmail.length < 1
-            // this.state.userImages.length<1
+            this.state.userEmail.length < 1 ||
+            this.state.userImages.length<1
         ) {
             this.setState({
                 handleError: true
@@ -114,7 +114,7 @@ export default class Modal extends React.Component {
                     )}
                 </Select>
                 Загрузите фото*: (максимум 5 МБ)
-                <UploadButton getUploadLinks={e => this.getUploadLinks(e)} />
+                <UploadButton getUploadLinks={e => this.getUploadLinks(e)} valid={this.state.handleError && this.state.userImages === '' ? false : true}/>
                 Укажите Ваш e-mail*:
                 <Input
                     onChange={e => this.setState({ userEmail: e.target.value })}

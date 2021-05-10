@@ -35,10 +35,3 @@ export const LitterImage = styled.img`
     height: 300px;
     object-fit: contain;
 `
-
-export const UpdateImages = () => {
-    
-    return(
-        <></>
-    )
-}
