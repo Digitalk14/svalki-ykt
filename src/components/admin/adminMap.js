@@ -12,7 +12,8 @@ import AdminMarker from './adminMarker'
 
 const MapWrapper = styled.div`
     width: 100%;
-    height: 800px;
+    height: 100vh;
+    min-height: 800px;
     box-sizing: border-box;
 `
 

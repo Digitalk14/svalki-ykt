@@ -1,8 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
 import axios from 'axios'
 
-import { Form, SubmitButton, Select, Input, SubmitModal } from '../modal/formStyles'
+import { Form, SubmitButton, Select, Input, StyledInputMask } from '../modal/formStyles'
 import { Statuses, TrashAmounts } from '../statuses/statuses'
 import { UploadButton } from '../uploadCare/uploadCare'
 
@@ -120,11 +119,12 @@ export default class Modal extends React.Component {
                     onChange={e => this.setState({ userEmail: e.target.value })}
                     placeholder='E-mail*'
                     valid={this.state.handleError && this.state.userEmail.length < 1 ? false : true}
+                    value={this.state.userEmail}
                 />
                 При желании можете оставить свой номер телефона:
-                <Input valid={true} onChange={e => this.setState({ userPhone: e.target.value })} placeholder='Номер телефона' />
+                <StyledInputMask onChange={e => this.setState({ userPhone: e.target.value })} mask='+7(999)9999-999' placeholder='Номер телефона' value={this.state.userPhone}/>
                 Дополнительные примечания:
-                <Input valid={true} onChange={e => this.setState({ additionalText: e.target.value })} placeholder='Краткое описание' />
+                <Input valid={true} onChange={e => this.setState({ additionalText: e.target.value })} placeholder='Краткое описание' value={this.state.additionalText}/>
                 <SubmitButton type="submit" >Отправить</SubmitButton>
             </Form>
         )

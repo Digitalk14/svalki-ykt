@@ -40,7 +40,6 @@ export const LocationMarker = (props) => {
                     closePopup={closePopup}
                 />
             </Popup>
-
             : null
     )
 

@@ -2,11 +2,11 @@ import React from 'react'
 import { Marker, Popup } from 'react-leaflet'
 import styled from 'styled-components'
 import axios from 'axios'
-import { Form, SubmitButton, Select, Input } from '../modal/formStyles'
+import { Form, SubmitButton, Select, Input, StyledInputMask } from '../modal/formStyles'
 import { TextBox } from '../typography'
 import { Statuses, TrashAmounts } from '../statuses/statuses'
 import { ImageWrapper, ImagesScroller, LitterImage } from '../Carousel/carousel'
-import { AdminImages, DeleteImage } from '../adminImages/adminImages'
+import { AdminImages } from '../adminImages/adminImages'
 
 export default class AdminMarker extends React.Component {
     constructor(props) {
@@ -16,6 +16,9 @@ export default class AdminMarker extends React.Component {
             status: undefined,
             checkStatus: undefined,
             level: undefined,
+            userPhone: undefined,
+            userEmail: undefined,
+            userText: undefined,
             images: this.props.images.split(';').filter(x => x.length > 2)
         }
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -33,7 +36,10 @@ export default class AdminMarker extends React.Component {
                 status: this.state.status || this.props.status,
                 checkStatus: this.state.checkStatus || this.props.checkStatus,
                 level: this.state.level || this.props.level,
-                images: this.state.images.join(';') || this.props.images
+                images: this.state.images.join(';') || this.props.images,
+                additional: this.state.userText || this.props.additional,
+                email: this.state.userEmail || this.props.email,
+                phone: this.state.userPhone || this.props.phone
             }
         })
             .then(res => {
@@ -54,10 +60,10 @@ export default class AdminMarker extends React.Component {
     }
     deleteImage(img) {
         let deleteConfirm = confirm("Вы уверены что хотите удалить изображение?")
-        if(deleteConfirm){
+        if (deleteConfirm) {
             let imagesState = this.state.images
-            if(imagesState.includes(img)){
-                imagesState.splice(imagesState.indexOf(img),1)
+            if (imagesState.includes(img)) {
+                imagesState.splice(imagesState.indexOf(img), 1)
                 this.setState({
                     images: imagesState
                 })
@@ -69,7 +75,7 @@ export default class AdminMarker extends React.Component {
             <Marker position={this.props.position} icon={this.props.icon}>
                 <Popup minWidth={350}>
                     <Form onSubmit={this.handleSubmit}>
-                        Кликните по изображению чтобы удалить его:
+                        Кликните по изображению чтобы УДАЛИТЬ его:
                         <ImageWrapper>
                             <ImagesScroller>
                                 {this.state.images.map((image, i) => {
@@ -106,9 +112,9 @@ export default class AdminMarker extends React.Component {
                                 )}
                             </Select>
                         </TextBox>
-                        <TextBox>e-mail: <a href={`mailto:${this.props.email}`}>{this.props.email}</a></TextBox>
-                        <TextBox>Телефон: <a href={`tel:${this.props.phone}`}>{this.props.phone}</a></TextBox>
-                        <TextBox>Доп. информация: {this.props.additional}</TextBox>
+                        <TextBox>Обновить email: <Input valid={true} value={this.state.userEmail || this.props.email} onChange={e => this.setState({ userEmail: e.target.value })} placeholder='Обновлённый email' /></TextBox>
+                        <TextBox>Обновить телефон: <StyledInputMask mask='+7(999)9999-999' value={this.state.userPhone || this.props.phone} onChange={e => this.setState({ userPhone: e.target.value })} placeholder='Обновленный номер телефона' /></TextBox>
+                        <TextBox>Обновить дом. информацию: <Input valid={true} value={this.state.userText || this.props.additional} onChange={e => this.setState({userText: e.target.value})} placeholder='Введите обновлённый текст' /></TextBox>
                         <SubmitButton type='submit'>Сохранить изменения</SubmitButton>
                     </Form>
                 </Popup>

@@ -98,8 +98,8 @@ export default class Map extends React.Component {
                                         <ImagesScroller>
                                             {images.split(';').filter(x => x.length > 2).map((image, i) => {
                                                 return (
-                                                    <a href={image} target="_blank">
-                                                    <LitterImage key={i} src={image} />
+                                                    <a href={image} key={i} target="_blank">
+                                                    <LitterImage  src={image} />
                                                     </a>
                                                 )
                                             }

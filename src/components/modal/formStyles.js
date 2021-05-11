@@ -1,4 +1,6 @@
+import React from 'react'
 import styled from 'styled-components'
+import InputMask from 'react-input-mask'
 
 export const Form = styled.form`
     display: flex;
@@ -36,7 +38,18 @@ export const Input = styled.input`
         padding: 5px;
       }
 `
-
+export const StyledInputMask = styled(props=> <InputMask {...props}/>)`
+    margin: 0 0 5px 0;
+    padding: 5px;
+    border: 1px solid #8080807d;
+    border-radius: 3px;
+    width: 300px;
+    box-sizing: border-box;
+    background: white;
+    ::-webkit-input-placeholder { 
+        padding: 5px;
+    }
+`
 export const SubmitModal = styled.div`
       width: 300px;
 `
