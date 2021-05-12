@@ -16,6 +16,17 @@ export const SubmitButton = styled.button`
     box-sizing: border-box;
     outline: none;
 `
+export const DeleteButton = styled.button`
+    background: red;
+    border: none;
+    padding: 5px;
+    color: white;
+    border-radius: 3px;
+    width: 300px;
+    box-sizing: border-box;
+    outline: none;
+    margin: 10px 0 0 0;
+`
 export const Select = styled.select`
     margin: 0 0 5px 0;
     padding: 5px;

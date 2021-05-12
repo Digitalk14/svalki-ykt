@@ -1,8 +1,7 @@
 import React from 'react'
 import { Marker, Popup } from 'react-leaflet'
-import styled from 'styled-components'
 import axios from 'axios'
-import { Form, SubmitButton, Select, Input, StyledInputMask } from '../modal/formStyles'
+import { Form, SubmitButton, Select, Input, StyledInputMask, DeleteButton } from '../modal/formStyles'
 import { TextBox } from '../typography'
 import { Statuses, TrashAmounts } from '../statuses/statuses'
 import { ImageWrapper, ImagesScroller, LitterImage } from '../Carousel/carousel'
@@ -24,10 +23,10 @@ export default class AdminMarker extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this)
         this.updateImages = this.updateImages.bind(this)
         this.deleteImage = this.deleteImage.bind(this)
+        this.handleDelete = this.handleDelete.bind(this)
     }
     handleSubmit(e) {
         e.preventDefault()
-        console.log(this.state.images.join(';'))
         axios({
             method: 'post',
             url: '/api/changesDump.php',
@@ -68,6 +67,24 @@ export default class AdminMarker extends React.Component {
                     images: imagesState
                 })
             }
+        }
+    }
+    handleDelete(id){
+        let deleteConfirm = confirm("Вы уверены что хотите удалить свалку?")
+        if(deleteConfirm){
+            axios({
+                method: 'post',
+                url: '/api/deleteDump.php',
+                data: {
+                    id: id
+                }
+            })
+            .then(res=>{
+                if (typeof window !== 'undefined') {
+                    window.location.reload()
+                }
+            })
+            .catch(err=>console.log(true))
         }
     }
     render() {
@@ -116,6 +133,7 @@ export default class AdminMarker extends React.Component {
                         <TextBox>Обновить телефон: <StyledInputMask mask='+7(999)9999-999' value={this.state.userPhone || this.props.phone} onChange={e => this.setState({ userPhone: e.target.value })} placeholder='Обновленный номер телефона' /></TextBox>
                         <TextBox>Обновить дом. информацию: <Input valid={true} value={this.state.userText || this.props.additional} onChange={e => this.setState({userText: e.target.value})} placeholder='Введите обновлённый текст' /></TextBox>
                         <SubmitButton type='submit'>Сохранить изменения</SubmitButton>
+                        <DeleteButton type='button' onClick={()=>this.handleDelete(this.props.id)}>Удалить</DeleteButton>
                     </Form>
                 </Popup>
             </Marker>
