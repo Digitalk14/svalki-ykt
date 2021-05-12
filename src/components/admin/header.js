@@ -2,12 +2,22 @@ import React, { useSa, useState } from 'react'
 import styled from 'styled-components'
 import { Logout } from '../Login/login'
 import { dumpsByTypesStates, dumpsByStatuses } from '../sortByTypes'
+import { Select } from '../modal/formStyles'
+
 
 const HeaderBlock = styled.header`
     width: 100%;
     background: white;
     z-index: 100;
-    height: 100px;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+`
+const SelectBlock = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0 20px;
 `
 
 export const Header = (props) => {
@@ -20,9 +30,9 @@ export const Header = (props) => {
     }
     return (
         <HeaderBlock>
-            <div>
+            <SelectBlock>
                 Фильтровать по типам свалок:
-            <select onChange={e => handleChange(e.target.value)}>
+            <Select valid={true} onChange={e => handleChange(e.target.value)}>
                     <option value='all'>Показать все ({props.statuses.length})</option>
                     {Object.entries(dumpsByTypesStates(props.statuses)).map(([key, value], i) => {
                         return (
@@ -30,11 +40,11 @@ export const Header = (props) => {
                         )
                     }
                     )}
-                </select>
-            </div>
-            <div>
+                </Select>
+            </SelectBlock>
+            <SelectBlock>
                 Фильтрова по статусу:
-            <select onChange={e => handleChangeStatuses(e.target.value)}>
+            <Select valid={true} onChange={e => handleChangeStatuses(e.target.value)}>
                     <option value='all'>Показать все ({props.statuses.length})</option>
                     {Object.entries(dumpsByStatuses(props.statuses)).map(([key, value], i) => {
                         return (
@@ -42,8 +52,8 @@ export const Header = (props) => {
                         )
                     })}
                     {dumpsByStatuses(props.statuses)}
-                </select>
-            </div>
+                </Select>
+            </SelectBlock>
             <Logout isLoggedOut={(e) => props.isLoggedOut(e)} />
         </HeaderBlock>
     )
