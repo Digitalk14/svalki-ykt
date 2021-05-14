@@ -87,7 +87,7 @@ export default class Map extends React.Component {
                         showNotification={this.props.showNotification}
                         closePopup={this.closePopup}
                     />
-                    {this.state.markers.length > 0 ? this.state.markers.map(({ positionLat, positionLon, status, images, text, name, category, checkStatus, level, additional, id }, index) => {
+                    {this.state.markers.map(({ positionLat, positionLon, status, images, text, name, category, checkStatus, level, additional, id }, index) => {
                         let position = []
                         position.push(positionLat)
                         position.push(positionLon)
@@ -114,7 +114,7 @@ export default class Map extends React.Component {
                                 </Popup>
                             </Marker>
                         )
-                    }):null}
+                    })}
                 </MapContainer>
             </MapWrapper>
         );
