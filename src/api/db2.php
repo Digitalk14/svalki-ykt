@@ -15,6 +15,7 @@ if ($link->connect_errno) {
   echo 'Не могу соединиться с Базой данных. Код ошибки: ' . mysqli_connect_errno() . ', ошибка: ' . mysqli_connect_error();
   exit;
 } 
+
 // $link = mysql_connect('mysql.server:3306', 'svalki', 'F7s1_j4r');
 // if (!$link) {
 //     die('Ошибка соединения: ' . mysql_error());

@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { Text } from '../typography'
 import axios from 'axios'
 import { SwitchIcon } from './switchIcon'
-import {ImageWrapper, ImagesScroller, LitterImage} from '../Carousel/carousel'
+import { ImageWrapper, ImagesScroller, LitterImage } from '../Carousel/carousel'
 
 const MapWrapper = styled.div`
     width: 100%;
@@ -38,9 +38,9 @@ export default class Map extends React.Component {
                     markers: res.data
                 })
             })
-            .catch(err=>{
+            .catch(err => {
                 console.log(err)
-                this.props.showNotification('Проблема при загрузке карты','error')
+                this.props.showNotification('Проблема при загрузке карты', 'error')
             })
     }
     refreshTheMap() {
@@ -50,12 +50,12 @@ export default class Map extends React.Component {
                     markers: res.data
                 })
             })
-            .catch(err=>{
+            .catch(err => {
                 console.log(err)
-                this.props.showNotification('Проблема при загрузке карты','error')
+                this.props.showNotification('Проблема при загрузке карты', 'error')
             })
     }
-    closePopup(){
+    closePopup() {
         console.log(this.popupRef.current)
         this.popupRef.current._source._map._popup._closeButton.onclick()
     }
@@ -87,7 +87,7 @@ export default class Map extends React.Component {
                         showNotification={this.props.showNotification}
                         closePopup={this.closePopup}
                     />
-                    {this.state.markers.map(({ positionLat, positionLon, status, images, text, name, category, checkStatus, level, additional, id }, index) => {
+                    {this.state.markers.length > 0 ? this.state.markers.map(({ positionLat, positionLon, status, images, text, name, category, checkStatus, level, additional, id }, index) => {
                         let position = []
                         position.push(positionLat)
                         position.push(positionLon)
@@ -99,7 +99,7 @@ export default class Map extends React.Component {
                                             {images.split(';').filter(x => x.length > 2).map((image, i) => {
                                                 return (
                                                     <a href={image} key={i} target="_blank">
-                                                    <LitterImage  src={image} />
+                                                        <LitterImage src={image} />
                                                     </a>
                                                 )
                                             }
@@ -114,7 +114,7 @@ export default class Map extends React.Component {
                                 </Popup>
                             </Marker>
                         )
-                    })}
+                    }):null}
                 </MapContainer>
             </MapWrapper>
         );
