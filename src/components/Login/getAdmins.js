@@ -22,9 +22,9 @@ export const GetAdmins = () => {
         googleId: res.googleId,
       },
     }).then((res) => {
-        console.log(res)
-        // alert('Вы добавлены в список админов!')
-    });
+        alert('Вы добавлены в список админов!')
+    })
+    .catch(err=>{console.log(err)})
   };
   const onFailure = (res) => {
     console.log(res);

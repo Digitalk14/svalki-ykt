@@ -3,7 +3,6 @@ import { ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Main } from "./components/main/main";
 import { Admin } from "./components/admin/admin";
-import { GetAdmins } from "./components/Login/getAdmins";
 
 export default class App extends React.Component {
   render() {
@@ -16,9 +15,6 @@ export default class App extends React.Component {
             </Route>
             <Route exact path="/admin">
               <Admin />
-            </Route>
-            <Route exact path="/ykfj5768">
-              <GetAdmins />
             </Route>
           </Switch>
         </ThemeProvider>

@@ -75,7 +75,7 @@ export default class Map extends React.Component {
         const position = [62.027115, 129.732188] //Yakutsk
 
         return (
-            <MapWrapper >
+            <MapWrapper id="mapTarget">
                 <MapContainer style={{ height: "100%" }} center={position} zoom={13} scrollWheelZoom={true} c>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

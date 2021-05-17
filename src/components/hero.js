@@ -1,14 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
-import background from '../images/bg.jpg'
+import background from '../images/svalka-min.jpeg'
 import { Heading, Text } from './typography'
 import logo from '../images/logo.png'
 
 const HeroWrapper = styled.div`
     width: 100%;
     background: url(${background}) no-repeat center center;
+    background-size: cover; 
     box-sizing: border-box;
-    padding: 100px 0;
+    padding: 150px 0;
     display: flex;
     align-items: center;
     @media (max-width:700px){
@@ -34,12 +35,15 @@ const Anchor = styled.a`
     cursor: pointer;
     font-weight: 700;
     text-align: center;
+    text-decoration: none;
+    color: #333;
+
 `
 
 const Logo = styled.img.attrs({
     src: logo
 })`
-    width: 100px;
+    width: 150px;
     position: fixed;
     left: 20px;
     top: 20px;
@@ -61,7 +65,7 @@ export const Hero = () => {
                 <Text maxWidth='400px' margin='40px 0'>
                     При помощи этой карты будет собираться информация о мусоре, для последующих уборок и вывоза.
                 </Text>
-                <Anchor>
+                <Anchor href='#mapTarget'>
                     ДОБАВИТЬ ИНФОРМАЦИЮ О МУСОРЕ
                 </Anchor>
             </HeroContent>
