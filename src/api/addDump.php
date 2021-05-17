@@ -13,7 +13,12 @@ $userPhone = $_POST['phone'];
 
 if($_POST['positionLat']){
     $sql = mysqli_query($link, "INSERT INTO `dumps` (`positionLat`,`positionLon`,`status`,`checkStatus`,`level`,`additional`,`images`,`email`,`phone`) VALUES ('$positionLat','$positionLon','$status','$checkStatus','$level','$additional','$images','$userEmail','$userPhone')");
-   
+    $from = "musorunet@sinet.team";
+    $subject = "Заявка на сайте https://svalki.ykt.ru";
+    $message = "Здравствуйте! Ваша заявка на добавление информации о мусоре получена. Благодарим!";
+    $headers = "From:" . $from;
+    mail($userEmail,$subject,$message,$headers);
+    echo "the email message was sent";
 }else{
     echo("smth went wrong");
 };
