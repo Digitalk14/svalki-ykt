@@ -17,8 +17,10 @@ if($_POST['positionLat']){
     $subject = "Заявка на сайте https://svalki.ykt.ru";
     $message = "Здравствуйте! Ваша заявка на добавление информации о мусоре получена. Благодарим!";
     $headers = "From:" . $from;
-    mail($userEmail,$subject,$message,$headers);
-    echo "the email message was sent";
+    if($userEmail){
+        mail($userEmail,$subject,$message,$headers);
+        echo "the email message was sent";
+    }
 }else{
     echo("smth went wrong");
 };

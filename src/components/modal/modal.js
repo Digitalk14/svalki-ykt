@@ -26,7 +26,6 @@ export default class Modal extends React.Component {
         if (
             this.state.trashAmount === '' ||
             this.state.trashType === '' ||
-            this.state.userEmail.length < 1 ||
             this.state.userImages.length<1
         ) {
             this.setState({
@@ -50,7 +49,7 @@ export default class Modal extends React.Component {
                 checkStatus: 'на проверке',
                 level: this.state.trashAmount,
                 additional: this.state.additionalText,
-                email: this.state.userEmail,
+                email: this.state.userEmail || '',
                 phone: this.state.userPhone || '',
                 images: this.state.userImages
             }
@@ -114,11 +113,11 @@ export default class Modal extends React.Component {
                 </Select>
                 Загрузите фото*: (максимум 5 МБ)
                 <UploadButton getUploadLinks={e => this.getUploadLinks(e)} valid={this.state.handleError && this.state.userImages === '' ? false : true}/>
-                Укажите Ваш e-mail*:
+                Укажите Ваш e-mail:
                 <Input
                     onChange={e => this.setState({ userEmail: e.target.value })}
-                    placeholder='E-mail*'
-                    valid={this.state.handleError && this.state.userEmail.length < 1 ? false : true}
+                    placeholder='E-mail'
+                    valid={true}
                     value={this.state.userEmail}
                 />
                 При желании можете оставить свой номер телефона:
