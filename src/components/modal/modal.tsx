@@ -13,7 +13,7 @@ import { useState } from "react";
 interface IModalProps {
     positionLat: number,
     positionLon: number,
-    showNotification: (a:string,b:string) => {},
+    showNotification: (a:string,b:string) => void,
 
 }
 
@@ -116,7 +116,7 @@ export const Modal: React.FC<IModalProps> = ({positionLat,positionLon,showNotifi
       </Select>
       Загрузите фото*: (максимум 5 МБ)
       <UploadButton
-        getUploadLinks={() => getUploadLinks}
+        getUploadLinks={(links) => getUploadLinks(links)}
         valid={
           handleError && userImages === "" ? false : true
         }

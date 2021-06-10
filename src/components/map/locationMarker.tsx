@@ -3,9 +3,9 @@ import { Popup, useMapEvents } from "react-leaflet";
 import { Modal } from "../modal/modal";
 
 interface ILocationMarkerProps {
-  passPosition: (a: number, b: number, c: string) => {};
-  refreshTheMap: () => {};
-  showNotification: () => {};
+  passPosition: (a: number, b: number, c: string) => void;
+  refreshTheMap?: () => void;
+  showNotification?: (a:string,b:string) => void;
 }
 interface RefObject<T> {
   readonly current: T | null | undefined;
@@ -50,7 +50,7 @@ export const LocationMarker: React.FC<ILocationMarkerProps> = ({
         positionLat={position.latitude}
         positionLon={position.longitude}
         // refreshTheMap={refreshTheMap}
-        showNotification={showNotification}
+        showNotification={(a,b)=>showNotification(a,b)}
         // closePopup={closePopup}
       />
     </Popup>

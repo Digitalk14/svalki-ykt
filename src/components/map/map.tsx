@@ -58,12 +58,9 @@ export const Map: React.FC<IMapProps> = (props) => {
   const getPosition = (lat: string, lon: string, trashType: string) => {
     let state = [...markers];
     let newPoint = {
-      position: [] as string[],
+      position: [lat,lon] as string[],
       status: trashType,
     };
-    newPoint.position.push(lat);
-    newPoint.position.push(lon);
-    newPoint.status = trashType;
     state.push(newPoint);
     setMarkers(state);
   };
@@ -85,7 +82,7 @@ export const Map: React.FC<IMapProps> = (props) => {
         <LocationMarker
           passPosition={()=>getPosition}
           refreshTheMap={()=>refreshTheMap}
-          showNotification={()=>props.showNotification}
+          showNotification={(a,b)=>props.showNotification(a,b)}
           // closePopup={closePopup}
         />
         {markers.map(

@@ -2,7 +2,7 @@ import { Widget } from "@uploadcare/react-widget";
 import styled from "styled-components";
 
 interface IUploadButtonProps {
-  getUploadLinks: (url: string) => {};
+  getUploadLinks: (url: string) => void;
   valid: boolean
 }
 interface IStyledUploadButtonProps {

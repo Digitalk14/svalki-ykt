@@ -1,9 +1,15 @@
-import React, { useSa, useState } from 'react'
 import styled from 'styled-components'
 import { Logout } from '../Login/login'
 import { dumpsByTypesStates, dumpsByStatuses } from '../sortByTypes'
 import { Select } from '../modal/formStyles'
+import React from 'react'
 
+interface IHeaderProps {
+    pushStatus: (e:string) => void;
+    pushCheckStatus: (e:string) => void;
+    isLoggedOut: (a:boolean) => void;
+    statuses: any;
+}
 
 const HeaderBlock = styled.header`
     width: 100%;
@@ -20,12 +26,11 @@ const SelectBlock = styled.div`
     margin: 0 20px;
 `
 
-export const Header = (props) => {
-    const Statuses = ['new', 'Убрано', 'Другое (кузовы машин и т.д.)', 'Несанкционированные свалки', 'Мусор после пикников']
-    const handleChange = (selectedStatus) => {
+export const Header: React.FC<IHeaderProps> = (props) => {
+    const handleChange = (selectedStatus:string) => {
         props.pushStatus(selectedStatus)
     }
-    const handleChangeStatuses = (selectedStatus) => {
+    const handleChangeStatuses = (selectedStatus:string) => {
         props.pushCheckStatus(selectedStatus)
     }
     return (
@@ -48,10 +53,10 @@ export const Header = (props) => {
                     <option value='all'>Показать все ({props.statuses.length})</option>
                     {Object.entries(dumpsByStatuses(props.statuses)).map(([key, value], i) => {
                         return (
-                            <option key={i} value={key}>{key} ({value.count})</option>
+                            <option key={i} value={key}>{key} ({value})</option>
                         )
                     })}
-                    {dumpsByStatuses(props.statuses)}
+                    {dumpsByTypesStates(props.statuses)}
                 </Select>
             </SelectBlock>
             <Logout isLoggedOut={(e) => props.isLoggedOut(e)} />

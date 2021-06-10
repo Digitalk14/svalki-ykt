@@ -27,13 +27,12 @@ export const dumpsByTypesStates = (data: any) => {
 };
 
 export const dumpsByStatuses = (data: any) => {
-  let statuses: any = [];
+  let statuses: Array<any> = [];
   for (let i in data) {
     if (!(data[i].checkStatus in statuses)) {
-      statuses[data[i].checkStatus] = {};
-      statuses[data[i].checkStatus]["count"] = 1;
+      statuses[data[i].checkStatus] = 1;
     } else {
-      statuses[data[i].checkStatus]["count"]++;
+      statuses[data[i].checkStatus]++;
     }
   }
   return statuses;

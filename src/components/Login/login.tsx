@@ -1,13 +1,14 @@
 import { GoogleLogin, GoogleLogout } from "react-google-login";
 import { refreshTokenSetup } from "../utils/refreshToken";
 import axios from "axios";
+import React from "react";
 
 interface ILoginProps {
-  isLoggedIn: (a: boolean) => {};
-  showNotification: (a: string, b: string) => {};
+  isLoggedIn: (event: boolean) => void;
+  showNotification: (a: string, b: string) => void;
 }
 interface ILogoutProps {
-  isLoggedOut: (a: boolean) => {};
+  isLoggedOut: (a: boolean) => void;
 }
 
 const clientId = process.env.GOOGLE_USER_ID;
