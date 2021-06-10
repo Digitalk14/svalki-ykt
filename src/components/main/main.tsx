@@ -33,7 +33,6 @@ export const Main: React.FC = () => {
       <HowTo />
       {isShow ? (
         <Notification
-          show
           message={notifContent.message}
           status={notifContent.status}
         />

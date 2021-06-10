@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import background from '../images/svalka-min.jpeg'
 import { Heading, Text } from './typography'
@@ -54,7 +53,7 @@ const Logo = styled.img.attrs({
     }
 `
 
-export const Hero = () => {
+export const Hero: React.FC = () => {
     return (
         <HeroWrapper>
             <HeroContent>

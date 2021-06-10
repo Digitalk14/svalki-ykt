@@ -1,7 +1,15 @@
-import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-const Notif = styled.div`
+interface INotificationProps {
+    message: string,
+    status: string
+}
+
+interface INotifProps {
+    status?: string
+}
+
+const Notif = styled.div<INotifProps>`
     position: fixed;
     top: 0;
     left: 50%;
@@ -19,6 +27,6 @@ const P = styled.p`
     margin: 0;
 `
 
-export const Notification = ({ message, status }) => {
+export const Notification: React.FC<INotificationProps> = ({ message, status }) => {
     return <Notif status={status}><P>{message}</P></Notif>
 }

@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { Heading, Text } from './typography'
 
@@ -36,7 +35,7 @@ const SvgIcon = styled.svg`
     width: 40px;
 `
 
-export const Targets = () => {
+export const Targets: React.FC = () => {
     return (
         <TargetsWrapper>
             <Heading  margin='0 0 40px 0'>

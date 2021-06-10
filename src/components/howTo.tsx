@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { Text } from "./typography";
 
@@ -13,7 +12,7 @@ const HowToBlock = styled.div`
   padding: 0 20px;
 `;
 
-export const HowTo = () => {
+export const HowTo: React.FC = () => {
   return (
     <HowToBlock>
       <Text margin="10px 0" textAlign="center">

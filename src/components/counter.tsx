@@ -38,11 +38,6 @@ const CounterBlock = styled.div`
   }
 `;
 
-interface Entries {
-  key: number,
-  value: {}
-}
-
 export const Counter: React.FC = () => {
   const [counters, setCounters] = useState({});
   useEffect(() => {

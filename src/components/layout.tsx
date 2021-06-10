@@ -1,5 +1,8 @@
-import React from 'react'
 import styled from 'styled-components'
+
+interface ILayoutProps {
+    children: React.ReactNode
+}
 
 const LayoutBlock = styled.div`
     width: 100%;
@@ -9,7 +12,7 @@ const LayoutBlock = styled.div`
     margin: auto;
 `
 
-export const Layout = ({children}) => {
+export const Layout: React.FC<ILayoutProps> = ({children}) => {
     return(
         <LayoutBlock>
             {children}
