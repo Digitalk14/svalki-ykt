@@ -2,6 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import InputMask from 'react-input-mask'
 
+interface ISelectInputProps {
+    valid: boolean
+}
+
 export const Form = styled.form`
     display: flex;
     flex-direction: column;
@@ -27,7 +31,7 @@ export const DeleteButton = styled.button`
     outline: none;
     margin: 10px 0 0 0;
 `
-export const Select = styled.select`
+export const Select = styled.select<ISelectInputProps>`
     margin: 0 0 5px 0;
     padding: 5px;
     border: ${props => props.valid ? '1px solid #8080807d' : '1px solid red'};
@@ -37,7 +41,7 @@ export const Select = styled.select`
     background: white;
     outline: none;
 `
-export const Input = styled.input`
+export const Input = styled.input<ISelectInputProps>`
     margin: 0 0 5px 0;
     padding: 5px;
     border: ${props => props.valid ? '1px solid #8080807d' : '1px solid red'};
