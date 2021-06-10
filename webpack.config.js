@@ -7,7 +7,7 @@ const port = process.env.PORT || 3000;
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.js',
+    entry: './src/index.tsx',
     output: {
         filename: 'bundle-main.js',
         path: path.resolve(__dirname, "build"),
@@ -17,6 +17,7 @@ module.exports = {
         alias: {
             "react-dom": "@hot-loader/react-dom",
         },
+        extensions: ['.tsx','.ts','.js']
     },
     devtool: 'inline-source-map',
     module: {
@@ -34,6 +35,11 @@ module.exports = {
                 test: /\.css$/i,
                 use: ["style-loader", "css-loader"],
             },
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/
+            }
         ]
     },
     plugins: [

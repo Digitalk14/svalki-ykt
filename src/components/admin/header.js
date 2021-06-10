@@ -36,7 +36,7 @@ export const Header = (props) => {
                     <option value='all'>Показать все ({props.statuses.length})</option>
                     {Object.entries(dumpsByTypesStates(props.statuses)).map(([key, value], i) => {
                         return (
-                            <option key={i} value={key}>{key} ({value.count})</option>
+                            <option key={i} value={key}>{key} ({value})</option>
                         )
                     }
                     )}
