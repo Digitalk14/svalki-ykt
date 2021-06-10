@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { GoogleLogin } from "react-google-login";
 import axios from 'axios'
@@ -11,8 +10,8 @@ const LoginWrapper = styled.div`
   align-items: center;
 `;
 
-export const GetAdmins = () => {
-  const onSuccess = (res) => {
+export const GetAdmins: React.FC = () => {
+  const onSuccess = (res:any) => {
       console.log(res.ft.Te)
     axios({
       url: "/api/addAdmin.php",
@@ -26,7 +25,7 @@ export const GetAdmins = () => {
     })
     .catch(err=>{console.log(err)})
   };
-  const onFailure = (res) => {
+  const onFailure = (res:any) => {
     console.log(res);
   };
   return (

@@ -116,7 +116,7 @@ export const Modal: React.FC<IModalProps> = ({positionLat,positionLon,showNotifi
       </Select>
       Загрузите фото*: (максимум 5 МБ)
       <UploadButton
-        getUploadLinks={(e:any) => getUploadLinks(e)}
+        getUploadLinks={() => getUploadLinks}
         valid={
           handleError && userImages === "" ? false : true
         }
