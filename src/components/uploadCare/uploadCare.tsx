@@ -53,7 +53,7 @@ export const UploadButton: React.FC<IUploadButtonProps> = ({
         locale="ru"
         clearable
         onChange={onChange}
-        multipleMax={3}
+        multipleMax={15}
         multiple
         imagesOnly
         tabs="file camera url gdrive instagram"
