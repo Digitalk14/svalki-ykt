@@ -39,10 +39,11 @@ export const UploadButton = (props) => {
                 locale="ru"
                 clearable
                 onChange={onChange}
-                multipleMax={3}
+                multipleMax={0}
                 multiple
                 imagesOnly
-                tabs='file camera url gdrive instagram'
+                crop
+                tabs='file camera gdrive instagram'
                 validators={[maxDimensions(1920, 1920, 150000000)]}
                 imageShrink="1024x1024"
             />

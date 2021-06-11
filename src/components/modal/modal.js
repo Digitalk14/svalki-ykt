@@ -38,7 +38,6 @@ export default class Modal extends React.Component {
                 isSubmit: true,
             })
         }
-
         axios({
             method: 'post',
             url: '/api/addDump.php',
@@ -111,7 +110,7 @@ export default class Modal extends React.Component {
                         <option key={i} value={amount}>{amount}</option>
                     )}
                 </Select>
-                Загрузите фото*: (максимум 5 МБ)
+                Загрузите фото*: 
                 <UploadButton getUploadLinks={e => this.getUploadLinks(e)} valid={this.state.handleError && this.state.userImages === '' ? false : true}/>
                 Укажите Ваш e-mail:
                 <Input
