@@ -8,16 +8,19 @@ const LoginWrapper = styled.div`
   height: 100vh;
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 100%;
 `;
 
 export const GetAdmins: React.FC = () => {
   const onSuccess = (res:any) => {
-      console.log(res.ft.Te)
+      // console.log(res.ft.Te)
+      console.log(res)
     axios({
       url: "/api/addAdmin.php",
       method: "post",
       data: {
-        name: res.ft.Te,
+        name: res.dt.Ue,
         googleId: res.googleId,
       },
     }).then((res) => {
