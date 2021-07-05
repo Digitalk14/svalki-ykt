@@ -114,7 +114,7 @@ export const Modal: React.FC<IModalProps> = ({positionLat,positionLon,showNotifi
           </option>
         ))}
       </Select>
-      Загрузите фото*: (максимум 5 МБ)
+      Загрузите фото*:
       <UploadButton
         getUploadLinks={(links) => getUploadLinks(links)}
         valid={
@@ -123,10 +123,11 @@ export const Modal: React.FC<IModalProps> = ({positionLat,positionLon,showNotifi
       />
       Укажите Ваш e-mail:
       <Input
-        onChange={(e) => setUserEmail(e.target.value)}
+        onChange={(e:any) => setUserEmail(e.target.value.replace(/[^a-z,0-9,@,.,_,-,!]/,""))}
         placeholder="E-mail"
         valid={true}
         value={userEmail}
+        type='email'
       />
       При желании можете оставить свой номер телефона:
       <StyledInputMask
@@ -134,6 +135,7 @@ export const Modal: React.FC<IModalProps> = ({positionLat,positionLon,showNotifi
         mask="+7(999)9999-999"
         placeholder="Номер телефона"
         value={userPhone}
+        valid={true}
       />
       Дополнительные примечания:
       <Input

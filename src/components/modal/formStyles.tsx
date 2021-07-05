@@ -56,7 +56,7 @@ export const Input = styled.input<ISelectInputProps>`
 export const StyledInputMask = styled(props=> <InputMask {...props}/>)`
     margin: 0 0 5px 0;
     padding: 5px;
-    border: 1px solid #8080807d;
+    border: ${props => props.valid ? '1px solid #8080807d' : '1px solid red'};
     border-radius: 3px;
     width: 300px;
     box-sizing: border-box;

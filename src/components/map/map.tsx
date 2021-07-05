@@ -23,7 +23,9 @@ const MapWrapper = styled.div`
     height: 80vh;
   }
 `;
-
+const StyledPopup = styled(props=><Popup {...props}/>)`
+  width: 100%;
+`
 interface IMapProps {
   showNotification: (message: string, errorType: string) => void;
 }
@@ -67,13 +69,13 @@ export const Map: React.FC<IMapProps> = (props) => {
   const position: [number,number] = [62.027115, 129.732188]; //Yakutsk
 
   return (
-    <MapWrapper id="mapTarget">
+    <MapWrapper id="mapTarget" >
       <MapContainer
         style={{ height: "100%" }}
         center={position}
         zoom={12}
         scrollWheelZoom={true}
-        
+        tap={false}
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -102,7 +104,7 @@ export const Map: React.FC<IMapProps> = (props) => {
             let position: [number,number] = [positionLat,positionLon];
             return (
               <Marker key={index} position={position} icon={SwitchIcon(status)}>
-                <Popup minWidth={350}>
+                <Popup minWidth={300} maxWidth={300}>
                   <ImageWrapper>
                     <ImagesScroller>
                       {images

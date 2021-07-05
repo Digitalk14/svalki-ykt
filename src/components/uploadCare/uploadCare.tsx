@@ -56,7 +56,7 @@ export const UploadButton: React.FC<IUploadButtonProps> = ({
         multipleMax={15}
         multiple
         imagesOnly
-        tabs="file camera url gdrive instagram"
+        tabs="file camera url"
         validators={[maxDimensions(1920, 1920, 150000000)]}
         imageShrink="1024x1024"
       />
