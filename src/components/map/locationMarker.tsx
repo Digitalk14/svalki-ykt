@@ -20,10 +20,18 @@ export const LocationMarker: React.FC<ILocationMarkerProps> = ({
   const map = useMapEvents({
     click(event) {
         const { lat, lng } = event.latlng;
-        setPosition({
+        if(lat>61.915685113816075 && lat <62.34960927573042 && lng > 129.22345923492685 && lng < 130.0680541957263){
+          setPosition({
             latitude: lat,
             longitude: lng,
         });
+        }else{
+          setPosition({
+            latitude: 0,
+            longitude: 0
+          })
+        }
+        
     },
 })
   // const popupRef = React.useRef()
@@ -38,6 +46,10 @@ export const LocationMarker: React.FC<ILocationMarkerProps> = ({
     passPosition(position.latitude, position.longitude, trashType);
     position.latitude = 0;
   };
+  // нижний левый угол{latitude: 61.97252461843735, longitude: 129.4317626883276}
+  // верхний левый угол {latitude: 62.32538171004499, longitude: 129.36218261369507}
+  // верхний правый угол{latitude: 62.30368784333984, longitude: 130.4479980398901}
+  // нижний правый{latitude: 61.89887136945339, longitude: 130.17594303586523}
   return position.latitude !== 0 ? (
     <Popup
       position={[position.latitude, position.longitude]}

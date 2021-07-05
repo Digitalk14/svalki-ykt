@@ -76,6 +76,7 @@ export const Map: React.FC<IMapProps> = (props) => {
         zoom={12}
         scrollWheelZoom={true}
         tap={false}
+        
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
