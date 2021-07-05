@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useCookies } from "react-cookie";
 import {
   Form,
   SubmitButton,
@@ -26,7 +27,7 @@ export const Modal: React.FC<IModalProps> = ({positionLat,positionLon,showNotifi
   const [userImages, setUserImages] = useState("");
   const [handleError, setHandleError] = useState(false);
   const [isSubmit, setSubmit] = useState(false);
-
+  const [cookies,setCookie] = useCookies(['position'])
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (trashAmount === "" || trashType === "" || userImages.length < 1) {
@@ -57,6 +58,7 @@ export const Modal: React.FC<IModalProps> = ({positionLat,positionLon,showNotifi
         if (typeof window !== "undefined") {
           window.location.reload();
         }
+        setCookie('position',`${positionLat};${positionLon}`)
         // this.props.refreshTheMap(),
         // this.setState({
         //     trashType: '',

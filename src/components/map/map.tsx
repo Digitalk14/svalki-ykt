@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { LocationMarker } from "./locationMarker";
 import styled from "styled-components";
+import { useCookies } from "react-cookie";
 import { Text } from "../typography";
 import axios from "axios";
 import { SwitchIcon } from "./switchIcon";
@@ -32,6 +33,7 @@ interface IMapProps {
 
 export const Map: React.FC<IMapProps> = (props) => {
   const [markers, setMarkers] = useState([]);
+  const [cookies,setCookie] = useCookies(['position'])
   useEffect(() => {
     axios
       .get("/api/dumps.php")
@@ -66,14 +68,14 @@ export const Map: React.FC<IMapProps> = (props) => {
     state.push(newPoint);
     setMarkers(state);
   };
-  const position: [number,number] = [62.027115, 129.732188]; //Yakutsk
-
+  const position: [number,number] = cookies.position?[+cookies.position.split(';')[0],+cookies.position.split(';')[1]] : [62.027115, 129.732188] || cookies.position; //Yakutsk
+  console.log(position)
   return (
     <MapWrapper id="mapTarget" >
       <MapContainer
         style={{ height: "100%" }}
         center={position}
-        zoom={12}
+        zoom={cookies.position?15:12}
         scrollWheelZoom={true}
         tap={false}
         
