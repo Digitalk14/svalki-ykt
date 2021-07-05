@@ -14,8 +14,6 @@ const LoginWrapper = styled.div`
 
 export const GetAdmins: React.FC = () => {
   const onSuccess = (res:any) => {
-      // console.log(res.ft.Te)
-      console.log(res)
     axios({
       url: "/api/addAdmin.php",
       method: "post",
