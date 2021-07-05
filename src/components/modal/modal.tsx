@@ -12,13 +12,16 @@ import { UploadButton } from "../uploadCare/uploadCare";
 import { useState } from "react";
 
 interface IModalProps {
-    positionLat: number,
-    positionLon: number,
-    showNotification: (a:string,b:string) => void,
-
+  positionLat: number;
+  positionLon: number;
+  showNotification: (a: string, b: string) => void;
 }
 
-export const Modal: React.FC<IModalProps> = ({positionLat,positionLon,showNotification}) => {
+export const Modal: React.FC<IModalProps> = ({
+  positionLat,
+  positionLon,
+  showNotification,
+}) => {
   const [trashAmount, setTrashAmount] = useState("");
   const [trashType, setTrashType] = useState("");
   const [additionalText, setAdditionalText] = useState("");
@@ -27,10 +30,17 @@ export const Modal: React.FC<IModalProps> = ({positionLat,positionLon,showNotifi
   const [userImages, setUserImages] = useState("");
   const [handleError, setHandleError] = useState(false);
   const [isSubmit, setSubmit] = useState(false);
-  const [cookies,setCookie] = useCookies(['position'])
+  const [cookies, setCookie] = useCookies(["position"]);
+  console.log(trashAmount);
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    if (trashAmount === "" || trashType === "" || userImages.length < 1) {
+    if (
+      trashAmount === "" ||
+      trashAmount === "none" ||
+      trashType === "" ||
+      trashType === "none" ||
+      userImages.length < 1
+    ) {
       setHandleError(true);
       return false;
     } else {
@@ -58,7 +68,7 @@ export const Modal: React.FC<IModalProps> = ({positionLat,positionLon,showNotifi
         if (typeof window !== "undefined") {
           window.location.reload();
         }
-        setCookie('position',`${positionLat};${positionLon}`)
+        setCookie("position", `${positionLat};${positionLon}`);
         // this.props.refreshTheMap(),
         // this.setState({
         //     trashType: '',
@@ -71,7 +81,7 @@ export const Modal: React.FC<IModalProps> = ({positionLat,positionLon,showNotifi
         // this.props.closePopup()
       })
       .catch(
-        (err) => showNotification("Упс, что-то пошло не так!", "error"),
+        (err) => showNotification("Упс, что-то пошло не так!", "error")
         // closePopup()
       );
   };
@@ -89,7 +99,9 @@ export const Modal: React.FC<IModalProps> = ({positionLat,positionLon,showNotifi
         onChange={(e) => setTrashType(e.target.value)}
         defaultValue="none"
         valid={
-          handleError && trashType === "" ? false : true
+          handleError && (trashType === "" || trashType === "none")
+            ? false
+            : true
         }
       >
         <option value="none">Укажите тип мусора</option>
@@ -106,7 +118,9 @@ export const Modal: React.FC<IModalProps> = ({positionLat,positionLon,showNotifi
         defaultValue="none"
         onChange={(e) => setTrashAmount(e.target.value)}
         valid={
-          handleError && trashAmount === "" ? false : true
+          handleError && (trashAmount === "" || trashAmount === "none")
+            ? false
+            : true
         }
       >
         <option value="none">Укажите объём свалки</option>
@@ -119,21 +133,21 @@ export const Modal: React.FC<IModalProps> = ({positionLat,positionLon,showNotifi
       Загрузите фото*:
       <UploadButton
         getUploadLinks={(links) => getUploadLinks(links)}
-        valid={
-          handleError && userImages === "" ? false : true
-        }
+        valid={handleError && userImages === "" ? false : true}
       />
       Укажите Ваш e-mail:
       <Input
-        onChange={(e:any) => setUserEmail(e.target.value.replace(/[^a-z,0-9,@,.,_,-,!]/,""))}
+        onChange={(e: any) =>
+          setUserEmail(e.target.value.replace(/[^a-z,0-9,@,.,_,-,!]/, ""))
+        }
         placeholder="E-mail"
         valid={true}
         value={userEmail}
-        type='email'
+        type="email"
       />
       При желании можете оставить свой номер телефона:
       <StyledInputMask
-        onChange={(e:any) => setUserPhone(e.target.value)}
+        onChange={(e: any) => setUserPhone(e.target.value)}
         mask="+7(999)9999-999"
         placeholder="Номер телефона"
         value={userPhone}
@@ -142,7 +156,7 @@ export const Modal: React.FC<IModalProps> = ({positionLat,positionLon,showNotifi
       Дополнительные примечания:
       <Input
         valid={true}
-        onChange={(e:any) => setAdditionalText(e.target.value)}
+        onChange={(e: any) => setAdditionalText(e.target.value)}
         placeholder="Краткое описание"
         value={additionalText}
       />
