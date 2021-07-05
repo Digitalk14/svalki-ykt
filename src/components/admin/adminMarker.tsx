@@ -198,6 +198,7 @@ export const AdminMarker: React.FC<IAdminMarkerProps> = ({
           <TextBox>
             Обновить телефон:{" "}
             <StyledInputMask
+              valid={true}
               mask="+7(999)9999-999"
               value={userPhone || phoneProps}
               onChange={(e:any) => setUserPhone(e.target.value)}
