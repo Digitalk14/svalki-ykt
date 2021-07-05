@@ -69,7 +69,6 @@ export const Map: React.FC<IMapProps> = (props) => {
     setMarkers(state);
   };
   const position: [number,number] = cookies.position?[+cookies.position.split(';')[0],+cookies.position.split(';')[1]] : [62.027115, 129.732188] || cookies.position; //Yakutsk
-  console.log(position)
   return (
     <MapWrapper id="mapTarget" >
       <MapContainer

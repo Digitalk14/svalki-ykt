@@ -8,6 +8,7 @@ import { Legends } from "../legends";
 import { Targets } from "../targets";
 import { HowTo } from "../howTo";
 import { Notification } from "../notification/notification";
+import { CookiesConsent } from "../cookiesConsent/cookiesConsent";
 
 export const Main: React.FC = () => {
   const [isShow, setIsShow] = useState(false);
@@ -37,6 +38,7 @@ export const Main: React.FC = () => {
           status={notifContent.status}
         />
       ) : null}
+      <CookiesConsent />
     </Layout>
   );
 };
