@@ -25,4 +25,5 @@ export const TextBox = styled.div<TypographyProps>`
     margin: ${(props)=>props.margin?props.margin:'0'};
     max-width:${(props)=>props?props.maxWidth:'100%'};
     font-size: 16px;
+    
 `
