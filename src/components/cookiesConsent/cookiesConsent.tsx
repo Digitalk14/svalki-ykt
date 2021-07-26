@@ -34,7 +34,7 @@ export const CookiesConsent: React.FC = () => {
     if(!cookies.cookiesSvalki){
         return(
             <CookiesWrapper onClick={()=>setCookies('cookiesSvalki','true')}>
-                <Text textAlign='center'>Просматривая наш веб-сайт, вы соглашаетесь  с импользованием файлов cookie</Text>
+                <Text textAlign='center'>Просматривая наш веб-сайт, вы соглашаетесь  с использованием файлов cookie</Text>
                 <CookiesButton>Принять</CookiesButton>
             </CookiesWrapper>
         )
