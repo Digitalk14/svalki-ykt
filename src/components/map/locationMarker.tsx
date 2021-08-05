@@ -34,22 +34,11 @@ export const LocationMarker: React.FC<ILocationMarkerProps> = ({
         
     },
 })
-  // const popupRef = React.useRef()
-  const closePopup = () => {
-    // Popup.closePopup()
-    // console.log(Popup)
-    // console.log(popupRef.current)
-    // popupRef.current._closeButton.onclick()
-  };
   const getPosition = (trashType: string) => {
     console.log("click");
     passPosition(position.latitude, position.longitude, trashType);
     position.latitude = 0;
   };
-  // нижний левый угол{latitude: 61.97252461843735, longitude: 129.4317626883276}
-  // верхний левый угол {latitude: 62.32538171004499, longitude: 129.36218261369507}
-  // верхний правый угол{latitude: 62.30368784333984, longitude: 130.4479980398901}
-  // нижний правый{latitude: 61.89887136945339, longitude: 130.17594303586523}
   return position.latitude !== 0 ? (
     <Popup
       position={[position.latitude, position.longitude]}

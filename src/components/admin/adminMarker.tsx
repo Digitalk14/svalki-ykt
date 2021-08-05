@@ -17,6 +17,7 @@ import {
   LitterImage,
 } from "../Carousel/carousel";
 import { AdminImages } from "../adminImages/adminImages";
+import { useEffect } from "react";
 
 interface IAdminMarkerProps {
   imagesProps: string;
@@ -29,6 +30,7 @@ interface IAdminMarkerProps {
   phoneProps?: string;
   position: any;
   icon: any;
+  ref: any
 }
 
 export const AdminMarker: React.FC<IAdminMarkerProps> = ({
@@ -42,6 +44,7 @@ export const AdminMarker: React.FC<IAdminMarkerProps> = ({
   phoneProps,
   position,
   icon,
+  ref
 }) => {
   const [changedStates, setChangedStates] = useState({});
   const [status, setStatus] = useState(undefined);
@@ -53,7 +56,9 @@ export const AdminMarker: React.FC<IAdminMarkerProps> = ({
   const [images, setImages] = useState(
     imagesProps.split(";").filter((x) => x.length > 2)
   );
-
+    useEffect(()=>{
+      setImages(imagesProps.split(";").filter((x) => x.length > 2))
+    },[imagesProps])
   const handleSubmit = (e: any) => {
     e.preventDefault();
     axios({
@@ -112,7 +117,7 @@ export const AdminMarker: React.FC<IAdminMarkerProps> = ({
     }
   };
   return (
-    <Marker position={position} icon={icon}>
+    <Marker position={position} icon={icon} ref={ref}>
       <Popup minWidth={350}>
         <Form onSubmit={handleSubmit}>
           Кликните по изображению чтобы УДАЛИТЬ его:
@@ -120,11 +125,13 @@ export const AdminMarker: React.FC<IAdminMarkerProps> = ({
             <ImagesScroller>
               {images.map((image, i) => {
                 return (
+                  <>
                   <LitterImage
                     key={i}
                     src={image}
                     onClick={() => deleteImage(image)}
                   />
+                  </>
                 );
               })}
             </ImagesScroller>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React , { useState, useEffect, useRef } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { svalkiExamples } from "../svalki/svalkiExamples";
 import { LocationMarker } from "../map/locationMarker";
@@ -26,7 +26,10 @@ export const AdminMap: React.FC<IAdminMapProps> = (props) => {
   const [filteredCheckStatus, setFilteredCheckStatus] = useState("all");
   const [changedStates, setChangedStates] = useState({});
   const [changedDumpId, setChangedDumpId] = useState("");
-  const [dumps, setDumps] = useState([]);
+  const [dumps, setDumps] = useState([
+
+  ]);
+  const myRef = React.useRef()
   useEffect(() => {
     axios
       .get("/api/dumpsAdmin.php")
@@ -56,6 +59,7 @@ export const AdminMap: React.FC<IAdminMapProps> = (props) => {
   };
   const filterStatus = (status: string) => {
     setFilteredStatus(status);
+    console.log(myRef)
   };
   const filterCheckStatus = (status: string) => {
     setFilteredCheckStatus(status);
@@ -122,11 +126,11 @@ export const AdminMap: React.FC<IAdminMapProps> = (props) => {
               },
               index
             ) => {
-              let position = [positionLat, positionLon];
               return (
                 <AdminMarker
+                ref={myRef}
                   key={index}
-                  position={position}
+                  position={[positionLat,positionLon]}
                   icon={SwitchIcon(status)}
                   imagesProps={images}
                   idProps={id}
