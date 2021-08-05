@@ -24,6 +24,7 @@ export const AdminMap: React.FC<IAdminMapProps> = (props) => {
   const [markers, setMarkers] = useState([]);
   const [filteredStatus, setFilteredStatus] = useState("all");
   const [filteredCheckStatus, setFilteredCheckStatus] = useState("all");
+  const [filteredDumpNumber,setFilteredDumpNumber] = useState("all")
   const [changedStates, setChangedStates] = useState({});
   const [changedDumpId, setChangedDumpId] = useState("");
   const [dumps, setDumps] = useState([
@@ -64,12 +65,16 @@ export const AdminMap: React.FC<IAdminMapProps> = (props) => {
   const filterCheckStatus = (status: string) => {
     setFilteredCheckStatus(status);
   };
+  const filterByDumpNumber = (dumpNumber: string) => {
+    setFilteredDumpNumber(dumpNumber)
+  }
   const position: [number,number] = [62.027115, 129.732188]; //Yakutsk
   return (
     <MapWrapper>
       <Header
         pushStatus={(e) => filterStatus(e)}
         pushCheckStatus={(e) => filterCheckStatus(e)}
+        pushFilteredNumber={(e)=> filterByDumpNumber(e)}
         isLoggedOut={(e) => props.isLoggedOut(e)}
         statuses={dumps}
       />
@@ -91,23 +96,27 @@ export const AdminMap: React.FC<IAdminMapProps> = (props) => {
         />
         {dumps
           .filter((stat) => {
-            if (
-              stat.status === filteredStatus &&
-              stat.checkStatus === filteredCheckStatus
-            ) {
-              return true;
-            } else if (
-              (filteredCheckStatus === "all" &&
-                stat.status === filteredStatus) ||
-              (filteredStatus === "all" &&
-                stat.checkStatus === filteredCheckStatus)
-            ) {
-              return true;
-            } else if (
-              filteredStatus === "all" &&
-              filteredCheckStatus === "all"
-            ) {
-              return true;
+            if(filteredDumpNumber!=='all'){
+              return stat.id === filteredDumpNumber
+            }else{
+              if (
+                stat.status === filteredStatus &&
+                stat.checkStatus === filteredCheckStatus
+              ) {
+                return true;
+              } else if (
+                (filteredCheckStatus === "all" &&
+                  stat.status === filteredStatus) ||
+                (filteredStatus === "all" &&
+                  stat.checkStatus === filteredCheckStatus)
+              ) {
+                return true;
+              } else if (
+                filteredStatus === "all" &&
+                filteredCheckStatus === "all"
+              ) {
+                return true;
+              }
             }
           })
           .map(

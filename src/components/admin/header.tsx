@@ -7,6 +7,7 @@ import React from 'react'
 interface IHeaderProps {
     pushStatus: (e:string) => void;
     pushCheckStatus: (e:string) => void;
+    pushFilteredNumber: (e:string) => void;
     isLoggedOut: (a:boolean) => void;
     statuses: any;
 }
@@ -33,6 +34,9 @@ export const Header: React.FC<IHeaderProps> = (props) => {
     const handleChangeStatuses = (selectedStatus:string) => {
         props.pushCheckStatus(selectedStatus)
     }
+    const handleChangeDumpNumber = (selectedNumber: string) => {
+        props.pushFilteredNumber(selectedNumber)
+    }
     return (
         <HeaderBlock>
             <SelectBlock>
@@ -57,6 +61,15 @@ export const Header: React.FC<IHeaderProps> = (props) => {
                         )
                     })}
                     {dumpsByTypesStates(props.statuses)}
+                </Select>
+            </SelectBlock>
+            <SelectBlock>
+                Фильтр по номеру свалки:
+                <Select valid={true} onChange={e => handleChangeDumpNumber(e.target.value)}>
+                    <option value='all'>Показать все ({props.statuses.length})</option>
+                    {props.statuses.map(({id}:any,index:number)=>
+                        <option key={index}>{id}</option>
+                    )}
                 </Select>
             </SelectBlock>
             <Logout isLoggedOut={(e) => props.isLoggedOut(e)} />
