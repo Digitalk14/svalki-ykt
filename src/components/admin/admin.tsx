@@ -29,6 +29,7 @@ export const Admin: React.FC = () => {
   return (
     <Layout>
       <Theme />
+      
       {isLoggedin ? (
         <AdminMap
           isLoggedOut={(e: boolean) => setLoggedin(e)}
