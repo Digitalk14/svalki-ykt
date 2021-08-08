@@ -11,7 +11,6 @@ export const AdminTable: React.FC = (props) => {
       setTitles(Object.keys(res.data[0]).map((item) => item));
     });
   }, []);
-  console.log(dumps)
   return (
     <Table>
       <tr>

@@ -25,7 +25,7 @@ export const AdminMap: React.FC<IAdminMapProps> = (props) => {
   const [markers, setMarkers] = useState([]);
   const [filteredStatus, setFilteredStatus] = useState("all");
   const [filteredCheckStatus, setFilteredCheckStatus] = useState("all");
-  const [isMap, setMap] = useState(false);
+  const [isMap, setMap] = useState(true);
   const [dumps, setDumps] = useState([]);
   const myRef = React.useRef();
   useEffect(() => {
