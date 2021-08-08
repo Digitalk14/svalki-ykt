@@ -52,7 +52,7 @@ export const Header: React.FC<IHeaderProps> = (props) => {
         </Select>
       </SelectBlock>
       <SelectBlock>
-        Фильтрова по статусу:
+        Фильтровать по статусу:
         <Select
           valid={true}
           onChange={(e) => handleChangeStatuses(e.target.value)}
