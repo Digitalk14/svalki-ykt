@@ -1,4 +1,4 @@
-import React , { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { svalkiExamples } from "../svalki/svalkiExamples";
 import { LocationMarker } from "../map/locationMarker";
@@ -7,6 +7,7 @@ import axios from "axios";
 import { Header } from "./header";
 import { SwitchIcon } from "../map/switchIcon";
 import { AdminMarker } from "./adminMarker";
+import { AdminTable } from "./adminTable";
 
 interface IAdminMapProps {
   isLoggedOut: (e: boolean) => void;
@@ -24,13 +25,10 @@ export const AdminMap: React.FC<IAdminMapProps> = (props) => {
   const [markers, setMarkers] = useState([]);
   const [filteredStatus, setFilteredStatus] = useState("all");
   const [filteredCheckStatus, setFilteredCheckStatus] = useState("all");
-  const [filteredDumpNumber,setFilteredDumpNumber] = useState("all")
-  const [changedStates, setChangedStates] = useState({});
-  const [changedDumpId, setChangedDumpId] = useState("");
-  const [dumps, setDumps] = useState([
-
-  ]);
-  const myRef = React.useRef()
+const [filteredDumpNumber,setFilteredDumpNumber] = useState("all")  
+const [isMap, setMap] = useState(true);
+  const [dumps, setDumps] = useState([]);
+  const myRef = React.useRef();
   useEffect(() => {
     axios
       .get("/api/dumpsAdmin.php")
@@ -41,7 +39,7 @@ export const AdminMap: React.FC<IAdminMapProps> = (props) => {
         console.log(err);
         props.showNotification("Проблема при загрузке карты", "error");
       });
-  },[]);
+  }, []);
   const refreshTheMap = () => {
     axios.get("/api/dumpsAdmin.php").then((res) => {
       setDumps(res.data);
@@ -60,7 +58,7 @@ export const AdminMap: React.FC<IAdminMapProps> = (props) => {
   };
   const filterStatus = (status: string) => {
     setFilteredStatus(status);
-    console.log(myRef)
+    console.log(myRef);
   };
   const filterCheckStatus = (status: string) => {
     setFilteredCheckStatus(status);
