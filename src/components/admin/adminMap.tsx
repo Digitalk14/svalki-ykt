@@ -25,8 +25,8 @@ export const AdminMap: React.FC<IAdminMapProps> = (props) => {
   const [markers, setMarkers] = useState([]);
   const [filteredStatus, setFilteredStatus] = useState("all");
   const [filteredCheckStatus, setFilteredCheckStatus] = useState("all");
-const [filteredDumpNumber,setFilteredDumpNumber] = useState("all")  
-const [isMap, setMap] = useState(true);
+  const [filteredDumpNumber, setFilteredDumpNumber] = useState("all");
+  const [isMap, setMap] = useState(true);
   const [dumps, setDumps] = useState([]);
   const myRef = React.useRef();
   useEffect(() => {
@@ -58,101 +58,105 @@ const [isMap, setMap] = useState(true);
   };
   const filterStatus = (status: string) => {
     setFilteredStatus(status);
-    console.log(myRef);
   };
   const filterCheckStatus = (status: string) => {
     setFilteredCheckStatus(status);
   };
   const filterByDumpNumber = (dumpNumber: string) => {
-    setFilteredDumpNumber(dumpNumber)
-  }
-  const position: [number,number] = [62.027115, 129.732188]; //Yakutsk
+    setFilteredDumpNumber(dumpNumber);
+  };
+  const position: [number, number] = [62.027115, 129.732188]; //Yakutsk
   return (
     <MapWrapper>
       <Header
         pushStatus={(e) => filterStatus(e)}
         pushCheckStatus={(e) => filterCheckStatus(e)}
-        pushFilteredNumber={(e)=> filterByDumpNumber(e)}
+        pushFilteredNumber={(e) => filterByDumpNumber(e)}
         isLoggedOut={(e) => props.isLoggedOut(e)}
+        changeView={() => setMap(!isMap)}
         statuses={dumps}
       />
-      <MapContainer
-        style={{ height: "100%", width: "100%" }}
-        center={position}
-        zoom={13}
-        scrollWheelZoom={true}
-      >
-        <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <LocationMarker
-          passPosition={() => getPosition}
-          refreshTheMap={() => refreshTheMap}
-          showNotification={(a, b) => props.showNotification(a, b)}
-          // closePopup={closePopup}
-        />
-        {dumps
-          .filter((stat) => {
-            if(filteredDumpNumber!=='all'){
-              return stat.id === filteredDumpNumber
-            }else{
-              if (
-                stat.status === filteredStatus &&
-                stat.checkStatus === filteredCheckStatus
-              ) {
-                return true;
-              } else if (
-                (filteredCheckStatus === "all" &&
-                  stat.status === filteredStatus) ||
-                (filteredStatus === "all" &&
-                  stat.checkStatus === filteredCheckStatus)
-              ) {
-                return true;
-              } else if (
-                filteredStatus === "all" &&
-                filteredCheckStatus === "all"
-              ) {
-                return true;
+      {isMap ? (
+        <MapContainer
+          style={{ height: "100%", width: "100%" }}
+          center={position}
+          zoom={13}
+          scrollWheelZoom={true}
+        >
+          <TileLayer
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <LocationMarker
+            passPosition={() => getPosition}
+            refreshTheMap={() => refreshTheMap}
+            showNotification={(a, b) => props.showNotification(a, b)}
+            // closePopup={closePopup}
+          />
+          {dumps
+            .filter((stat) => {
+              if (filteredDumpNumber !== "all") {
+                return stat.id === filteredDumpNumber;
+              } else {
+                if (
+                  stat.status === filteredStatus &&
+                  stat.checkStatus === filteredCheckStatus
+                ) {
+                  return true;
+                } else if (
+                  (filteredCheckStatus === "all" &&
+                    stat.status === filteredStatus) ||
+                  (filteredStatus === "all" &&
+                    stat.checkStatus === filteredCheckStatus)
+                ) {
+                  return true;
+                } else if (
+                  filteredStatus === "all" &&
+                  filteredCheckStatus === "all"
+                ) {
+                  return true;
+                }
               }
-            }
-          })
-          .map(
-            (
-              {
-                positionLat,
-                positionLon,
-                status,
-                images,
-                checkStatus,
-                level,
-                additional,
-                id,
-                email,
-                phone,
-              },
-              index
-            ) => {
-              return (
-                <AdminMarker
-                ref={myRef}
-                  key={index}
-                  position={[positionLat,positionLon]}
-                  icon={SwitchIcon(status)}
-                  imagesProps={images}
-                  idProps={id}
-                  statusProps={status}
-                  checkStatusProps={checkStatus}
-                  levelProps={level}
-                  emailProps={email}
-                  phoneProps={phone}
-                  additionalProps={additional}
-                  // refreshTheMap={refreshTheMap()}
-                />
-              );
-            }
-          )}
-      </MapContainer>
+            })
+            .map(
+              (
+                {
+                  positionLat,
+                  positionLon,
+                  status,
+                  images,
+                  checkStatus,
+                  level,
+                  additional,
+                  id,
+                  email,
+                  phone,
+                },
+                index
+              ) => {
+                return (
+                  <AdminMarker
+                    ref={myRef}
+                    key={index}
+                    position={[positionLat, positionLon]}
+                    icon={SwitchIcon(status)}
+                    imagesProps={images}
+                    idProps={id}
+                    statusProps={status}
+                    checkStatusProps={checkStatus}
+                    levelProps={level}
+                    emailProps={email}
+                    phoneProps={phone}
+                    additionalProps={additional}
+                    // refreshTheMap={refreshTheMap()}
+                  />
+                );
+              }
+            )}
+        </MapContainer>
+      ) : (
+        <AdminTable />
+      )}
     </MapWrapper>
   );
 };

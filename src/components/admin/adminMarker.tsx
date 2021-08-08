@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Marker, Popup } from "react-leaflet";
 import axios from "axios";
 import {
@@ -125,13 +125,13 @@ export const AdminMarker: React.FC<IAdminMarkerProps> = ({
             <ImagesScroller>
               {images.map((image, i) => {
                 return (
-                  <>
+                  <React.Fragment key={i}>
                   <LitterImage
                     key={i}
                     src={image}
                     onClick={() => deleteImage(image)}
                   />
-                  </>
+                  </React.Fragment>
                 );
               })}
             </ImagesScroller>
